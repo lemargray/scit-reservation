@@ -19,6 +19,9 @@ Route::get('/users', 'UsersController@index')->name('users');
 Route::get('/user/{id}/edit', 'UsersController@edit')->name('edit-user');
 Route::post('/user/{id}', 'UsersController@update')->name('update-user');
 
-Route::get('test', function(){
+Route::resource('faults', 'FaultsController');
+Route::resource('reservations', 'ReservationsController');
+
+Route::get('test/created', function(){
     return view('test');
-});
+})->name('test');
