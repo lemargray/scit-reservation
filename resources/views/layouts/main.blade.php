@@ -10,13 +10,33 @@
   <link rel="stylesheet" href="{{asset('vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
   <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.2.2/dist/sweetalert2.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="{{asset('css/style.css')}}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{asset('images/favicon.png')}}" />
+  <link rel="shortcut icon" href="{{asset('images/utech/icon.png')}}" />
+  <style>
+    .content-wrapper {
+        background: #e6e2fc;
+    }
+    .navbar.default-layout {
+        background: linear-gradient(120deg, #8776d3, #0e034d);
+    }
+    .sidebar{
+      background: #f3f3f3;
+    }
+
+    .action-icon{
+      font-size:20px;
+      margin-right:10px;
+    }
+  </style>
 </head>
 
 <body>

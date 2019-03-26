@@ -4,7 +4,7 @@
             <div class="nav-link">
               <div class="user-wrapper">
                 <div class="profile-image">
-                  <img src="images/faces/face1.jpg" alt="profile image">
+                  <img src="{{asset('/images/faces/face1.jpg')}}" alt="profile image">
                 </div>
                 <div class="text-wrapper">
                   <p class="profile-name">{{ Auth::user()->name }}</p>
@@ -14,47 +14,69 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-success btn-block">New Project
+              <!-- <button class="btn btn-success btn-block">New Project
                 <i class="mdi mdi-plus"></i>
-              </button>
+              </button> -->
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{route('home')}}">
               <i class="menu-icon mdi mdi-television"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-content-copy"></i>
-              <span class="menu-title">Basic UI Elements</span>
+              <i class="menu-icon mdi mdi-calendar-multiple"></i>
+              <span class="menu-title">Reservations</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a>
+                  <a class="nav-link" href="pages/ui-features/buttons.html">View Reservations</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                  <a class="nav-link" href="pages/ui-features/typography.html">Reserve a Computer</a>
                 </li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/forms/basic_elements.html">
-              <i class="menu-icon mdi mdi-backup-restore"></i>
-              <span class="menu-title">Form elements</span>
+            <a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="users">
+              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <span class="menu-title">User Management</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="users">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('users')}}">View Users</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('register')}}">Add User</a>
+                </li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="pages/charts/chartjs.html">
-              <i class="menu-icon mdi mdi-chart-line"></i>
-              <span class="menu-title">Charts</span>
+            <a class="nav-link" data-toggle="collapse" href="#faults" aria-expanded="false" aria-controls="faults">
+              <i class="menu-icon mdi mdi-bug"></i>
+              <span class="menu-title">Fault Management</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="faults">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/buttons.html">Reports</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/typography.html">Report a Fault</a>
+                </li>
+              </ul>
+            </div>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="pages/tables/basic-table.html">
               <i class="menu-icon mdi mdi-table"></i>
               <span class="menu-title">Tables</span>
@@ -91,6 +113,6 @@
                 </li>
               </ul>
             </div>
-          </li>
+          </li> -->
         </ul>
       </nav>
