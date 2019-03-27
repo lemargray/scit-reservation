@@ -54,11 +54,11 @@
 
                 .banner_content{
                     position:relative !important;
-                    top: 10px !important;
+                    top: -60px !important;
                 }
 
                 .welcome-text{
-                    font-size: 2rem !important;
+                    font-size: 1.5rem !important;
                 }
 			}
 		</style>
@@ -72,7 +72,7 @@
 					<div class="container">
 						<!-- Brand and toggle get grouped for better mobile display -->
 						<a class="navbar-brand logo_h" href="#" style="">
-							<img style="height:120px; width:140px" src="{{asset('images/utech/icon.png')}}" alt="">
+							<img style="height:70px; width:90px" src="{{asset('images/utech/icon.png')}}" alt="">
 						</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="icon-bar"></span>
