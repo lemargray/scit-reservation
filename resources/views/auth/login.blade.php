@@ -42,11 +42,24 @@
                 color: #d5b41d !important;
                 border: 1px solid #d5b41d !important;
 			}
+            .banner_content{
+                position:relative !important;
+                top:80px !important;
+            }
 
 			@media(max-width: 992px){
 				.app_btn_area, #download-text{
 					display: none;
 				}
+
+                .banner_content{
+                    position:relative !important;
+                    top: 10px !important;
+                }
+
+                .welcome-text{
+                    font-size: 2rem !important;
+                }
 			}
 		</style>
     </head>
@@ -73,12 +86,12 @@
         <!--================Header Menu Area =================-->
         
         <!--================Home Banner Area =================-->
-        <section style="height:100vh" class="home_banner_area" id="home">
+        <section style="min-height:100vh" class="home_banner_area" id="home">
             <div class="banner_inner">
 				<div class="container">
-					<div class="row banner_content" style="position:relative;top:80px">
+					<div class="row banner_content" style="">
 						<div class="col-lg-8" style="text-align:left;">
-							<h2 style="font-weight:300">Welcome to <br>SCIT Reservation System!</h2>
+							<h2 class="welcome-text" style="font-weight:300">Welcome to <br>SCIT Reservation System!</h2>
 							<h1 id="download-text" style="color:#ffd203; margin-bottom:20px">Download The App.</h1>
 							<!-- <p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women.</p> -->
 							
