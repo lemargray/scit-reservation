@@ -120,7 +120,7 @@
 										<div class="form-group">
 											<label for="username">Username</label>
 				
-											<input id="username" type="username" class="form-control" name="username" value="{{old('username')}}" required autofocus>
+											<input id="username" type="username" class="form-control" name="username" value="{{old('username')}}" autocomplete="off" required autofocus>
                                             @if ($errors->has('username'))
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>username</strong>
