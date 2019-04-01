@@ -10,8 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    const LOCK = 1;
-    const UNLOCK = 0;
+    const LOCK = 0;
+    const UNLOCK = 1;
     /**
      * The attributes that are mass assignable.
      *

@@ -1,0 +1,70 @@
+{
+    "fields": [
+        {
+            "name": "name",
+            "type": "string"
+        },
+        {
+            "name": "description",
+            "type": "text"
+        },
+        {
+            "name": "lab_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "status_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "status_id",
+            "type": "select",
+            "options": {
+                "1": "Active"
+            }
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "lab_id",
+            "references": "id",
+            "on": "labs",
+            "onDelete": "cascade"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "lab",
+            "type": "belongsTo",
+            "class": "App\\Lab"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Status"
+        }
+    ],
+    "validations": [
+        {
+            "field": "name",
+            "rules": "required|max:191"
+        },
+        {
+            "field": "description",
+            "rules": "required"
+        },
+        {
+            "field": "lab_id",
+            "rules": "required|exists:labs,id"
+        },
+        {
+            "field": "status_id",
+            "rules": "required|exists:status,id"
+        }
+    ]
+}

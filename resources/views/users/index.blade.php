@@ -8,27 +8,27 @@
 <div class="card-header">Users &nbsp;&nbsp;&nbsp;<a class="action-icon" href="{{route('register')}}"><i style="color:#00ce68;" class="fas fa-user-plus"></i></a></div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-mobile">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
+                        <!-- <th scope="col">#</th> -->
+                        <th class="hide-mobile" scope="col">Name</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Status</th>
+                        <th class="hide-mobile" scope="col">Email</th>
+                        <th class="hide-mobile" scope="col">Role</th>
+                        <th class="hide-mobile" scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($users as $user)
                     <tr>
-                        <th scope="row">{{$user->id}}</th>
-                        <td>{{$user->name}}</td>
+                        <!-- <th scope="row">{{$user->id}}</th> -->
+                        <td class="hide-mobile">{{$user->name}}</td>
                         <td>{{$user->username}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->role->description}}</td>
-                        <td><span class="badge badge-{{$user->active == \App\User::LOCK? 'danger':'success'}}">{{$user->active == \App\User::LOCK? 'Locked':'Active'}}</span></td>
+                        <td class="hide-mobile">{{$user->email}}</td>
+                        <td class="hide-mobile">{{$user->role->description}}</td>
+                        <td class="hide-mobile"><span class="badge badge-{{$user->active == \App\User::LOCK? 'danger':'success'}}">{{$user->active == \App\User::LOCK? 'Locked':'Active'}}</span></td>
                         <td>
                             <a href="{{route('edit-user', ['id' => $user->id])}}"><i style="color:#00ce68;" class="action-icon fas fa-user-edit"></i></a>
                             <a href="#" onclick="disable_user({{$user->id}})"><i style="color:#e65251;" class="action-icon far fa-trash-alt"></i></a>

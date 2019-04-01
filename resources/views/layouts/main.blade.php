@@ -37,6 +37,28 @@
       margin-right:10px;
     }
   </style>
+  <style>
+    @media(max-width: 767px){
+        .content-wrapper, .card .card-body, .card-body{
+          padding: 0.3em !important;
+          margin:0 !important;
+        }
+
+        
+        .table-mobile th, .table-mobile td {
+            padding: 0.3rem !important;
+        }
+
+        .card .card-body, .card-body{
+          padding: 0.8em !important;
+          margin:0 !important;
+        }
+
+        .hide-mobile{
+          display: none;
+        }
+    }
+</style>
 </head>
 
 <body>
@@ -51,7 +73,11 @@
      <!-- partial -->
      <div class="main-panel">
         <div class="content-wrapper">
-            @yield('content')
+          @if(session()->has('flash_message'))
+            <div class="alert alert-success">{{session('flash_message')}}</div>
+          @endif
+
+          @yield('content')
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->

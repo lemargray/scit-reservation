@@ -33,5 +33,11 @@ class DatabaseSeeder extends Seeder
                 'role_id' => \App\Role::where('name', 'admin')->first()->id
             ]
         );
+
+        DB::table('status')->insert([
+            ['name' => 'Active'],
+            ['name' => 'Cancel'],
+            ['name' => 'Disable'],
+        ]);
     }
 }

@@ -4,20 +4,20 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="img/favicon.png" type="image/png">
-        <title>BulkApp</title>
+        <link rel="icon" href="{{asset('/images/utech/icon.png')}}" type="image/png">
+		<title>SCIT Reservation App</title>
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{{asset('/login/css/bootstrap.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/linericon/style.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/css/font-awesome.min.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/owl-carousel/owl.carousel.min.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/lightbox/simpleLightbox.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/nice-select/css/nice-select.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/animate-css/animate.css')}}">
-        <link rel="stylesheet" href="{{asset('/login/vendors/popup/magnific-popup.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/linericon/style.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/lightbox/simpleLightbox.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/nice-select/css/nice-select.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/animate-css/animate.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/vendors/popup/magnific-popup.css')}}">
         <!-- main css -->
-        <link rel="stylesheet" href="{{asset('/login/css/style.css')}}">
-		<link rel="stylesheet" href="{{asset('/login/css/responsive.css')}}">
+        <link rel="stylesheet" href="{{asset('/login_assets/css/style.css')}}">
+		<link rel="stylesheet" href="{{asset('/login_assets/css/responsive.css')}}">
 		<style>
 			.form-control, .form-control:focus{
 				background-color: #31313126 !important;
@@ -195,20 +195,20 @@
         
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="{{asset('/login/js/jquery-3.2.1.min.js')}}"></script>
-        <script src="{{asset('/login/js/popper.js')}}"></script>
-        <script src="{{asset('/login/js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('/login/js/stellar.js')}}"></script>
-        <script src="{{asset('/login/vendors/lightbox/simpleLightbox.min.js')}}"></script>
-        <script src="{{asset('/login/vendors/nice-select/js/jquery.nice-select.min.js')}}"></script>
-        <script src="{{asset('/login/vendors/isotope/imagesloaded.pkgd.min.js')}}"></script>
-        <script src="{{asset('/login/vendors/isotope/isotope-min.js')}}"></script>
-        <script src="{{asset('/login/vendors/owl-carousel/owl.carousel.min.js')}}"></script>
-        <script src="{{asset('/login/js/jquery.ajaxchimp.min.js')}}"></script>
-        <script src="{{asset('/login/vendors/counter-up/jquery.waypoints.min.js')}}"></script>
-        <script src="{{asset('/login/vendors/counter-up/jquery.counterup.js')}}"></script>
-        <script src="{{asset('/login/js/mail-script.js')}}"></script>
-        <script src="{{asset('/login/vendors/popup/jquery.magnific-popup.min.js')}}"></script>
-        <script src="{{asset('/login/js/theme.js')}}"></script>
+        <script src="{{asset('/login_assets/js/jquery-3.2.1.min.js')}}"></script>
+        <script src="{{asset('/login_assets/js/popper.js')}}"></script>
+        <script src="{{asset('/login_assets/js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('/login_assets/js/stellar.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/lightbox/simpleLightbox.min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/nice-select/js/jquery.nice-select.min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/isotope/imagesloaded.pkgd.min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/isotope/isotope-min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.js')}}"></script>
+        <script src="{{asset('/login_assets/js/jquery.ajaxchimp.min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/counter-up/jquery.waypoints.min.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/counter-up/jquery.counterup.js')}}"></script>
+        <script src="{{asset('/login_assets/js/mail-script.js')}}"></script>
+        <script src="{{asset('/login_assets/vendors/popup/jquery.magnific-popup.min.js')}}"></script>
+        <script src="{{asset('/login_assets/js/theme.js')}}"></script>
     </body>
 </html>

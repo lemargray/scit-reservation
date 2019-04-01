@@ -76,6 +76,39 @@
               </ul>
             </div>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#labs" aria-expanded="false" aria-controls="labs">
+              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <span class="menu-title">Lab Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="labs">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('labs.index')}}">Labs</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('labs.create')}}">New Lab</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#computers" aria-expanded="false" aria-controls="computers">
+              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <span class="menu-title">Computer Management</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="computers">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('computers.index')}}">Computers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{route('computers.create')}}">New Computer</a>
+                </li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>

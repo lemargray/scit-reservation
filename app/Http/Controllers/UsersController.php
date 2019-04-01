@@ -81,7 +81,20 @@ class UsersController extends Controller
     {
         $user = \App\User::find($id);
 
-        $user->fill($request->only(['name', 'password', 'role_id', 'email']));
+        $fields = ['name', 'role_id', 'email', 'username', 'active', 'password'];
+
+        $requestData = $request->only($fields);
+
+        if($requestData['password'] != ''){
+            $user->password = \Hash::make($requestData['password']); 
+        }
+
+        $user->name = $requestData['name'];
+        $user->username = $requestData['username'];
+        $user->role_id = $requestData['role_id'];
+        $user->active = $requestData['active'];
+        $user->email = $requestData['email'];
+        $user->save();
 
         return redirect('users')->with('success', 'User successfully updated.');
     }

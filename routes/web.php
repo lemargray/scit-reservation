@@ -25,3 +25,5 @@ Route::resource('reservations', 'ReservationsController');
 Route::get('test/created', function(){
     return view('test');
 })->name('test');
+Route::resource('labs', 'LabsController');
+Route::resource('computers', 'ComputersController');

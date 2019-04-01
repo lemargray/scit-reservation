@@ -74,10 +74,26 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="status" class="col-md-4 col-form-label text-md-right">{{ __('Status') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="active" class="form-control" id="active">
+                                    <option{{$user->active == \App\User::UNLOCK?' selected':''}} value="{{\App\User::UNLOCK}}">Active</option>
+                                    <option{{$user->active == \App\User::LOCK?' selected':''}} value="{{\App\User::LOCK}}">Lock</option>
+                                </select>
+                                @if ($errors->has('active'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('active') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"{{!isset($user)?" required":""}}>
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -91,7 +107,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation"{{!isset($user)?" required":""}}>
                             </div>
                         </div>
 
