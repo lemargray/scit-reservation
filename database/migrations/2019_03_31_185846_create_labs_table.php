@@ -13,7 +13,7 @@ class CreateLabsTable extends Migration
     public function up()
     {
         Schema::create('labs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
             $table->string('description')->nullable();

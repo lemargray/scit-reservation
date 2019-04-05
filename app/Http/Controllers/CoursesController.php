@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Computer;
+use App\Course;
 use Illuminate\Http\Request;
 
-class ComputersController extends Controller
+class CoursesController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -26,21 +26,14 @@ class ComputersController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $computers = Computer::with(['lab', 'status'])
-            ->whereHas('lab',function($query) use ($keyword){
-                $query->where("name","LIKE","%$keyword%");
-            })
-            ->orWhereHas('status',function($query) use ($keyword){
-                $query->where("name","LIKE","%$keyword%");
-            })
-            ->orWhere('name', 'LIKE', "%$keyword%")
-            ->orWhere('description', 'LIKE', "%$keyword%")
-            ->latest()->paginate($perPage);
+            $courses = Course::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
         } else {
-            $computers = Computer::latest()->paginate($perPage);
+            $courses = Course::latest()->paginate($perPage);
         }
 
-        return view('computers.index', compact('computers'));
+        return view('courses.index', compact('courses'));
     }
 
     /**
@@ -50,10 +43,7 @@ class ComputersController extends Controller
      */
     public function create()
     {
-        $statuses = \App\Status::all();
-        $labs = \App\Lab::all();
-
-        return view('computers.create', compact('statuses', 'labs'));
+        return view('courses.create');
     }
 
     /**
@@ -67,15 +57,13 @@ class ComputersController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required',
-			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id'
+			'description' => 'required'
 		]);
         $requestData = $request->all();
         
-        Computer::create($requestData);
+        Course::create($requestData);
 
-        return redirect('computers')->with('flash_message', 'Computer added!');
+        return redirect('courses')->with('flash_message', 'Course added!');
     }
 
     /**
@@ -87,9 +75,9 @@ class ComputersController extends Controller
      */
     public function show($id)
     {
-        $computer = Computer::findOrFail($id);
+        $course = Course::findOrFail($id);
 
-        return view('computers.show', compact('computer'));
+        return view('courses.show', compact('course'));
     }
 
     /**
@@ -101,11 +89,9 @@ class ComputersController extends Controller
      */
     public function edit($id)
     {
-        $computer = Computer::findOrFail($id);
-        $labs = \App\Lab::all();
-        $statuses = \App\Status::all();
+        $course = Course::findOrFail($id);
 
-        return view('computers.edit', compact('computer', 'statuses', 'labs'));
+        return view('courses.edit', compact('course'));
     }
 
     /**
@@ -120,16 +106,14 @@ class ComputersController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required',
-			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id'
+			'description' => 'required'
 		]);
         $requestData = $request->all();
         
-        $computer = Computer::findOrFail($id);
-        $computer->update($requestData);
+        $course = Course::findOrFail($id);
+        $course->update($requestData);
 
-        return redirect('computers')->with('flash_message', 'Computer updated!');
+        return redirect('courses')->with('flash_message', 'Course updated!');
     }
 
     /**
@@ -141,8 +125,8 @@ class ComputersController extends Controller
      */
     public function destroy($id)
     {
-        Computer::destroy($id);
+        Course::destroy($id);
 
-        return redirect('computers')->with('flash_message', 'Computer deleted!');
+        return redirect('courses')->with('flash_message', 'Course deleted!');
     }
 }

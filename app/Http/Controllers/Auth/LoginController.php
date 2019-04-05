@@ -43,6 +43,11 @@ class LoginController extends Controller
         return 'username';
     }
 
+    public function redirectPath()
+    {
+        return $this->redirectTo;
+    }
+
     protected function credentials(Request $request)
     {
         return array_merge(

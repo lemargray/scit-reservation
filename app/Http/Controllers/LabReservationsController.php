@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Computer;
+use App\LabReservation;
 use Illuminate\Http\Request;
 
-class ComputersController extends Controller
+class LabReservationsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -26,21 +26,21 @@ class ComputersController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $computers = Computer::with(['lab', 'status'])
-            ->whereHas('lab',function($query) use ($keyword){
-                $query->where("name","LIKE","%$keyword%");
-            })
-            ->orWhereHas('status',function($query) use ($keyword){
-                $query->where("name","LIKE","%$keyword%");
-            })
-            ->orWhere('name', 'LIKE', "%$keyword%")
-            ->orWhere('description', 'LIKE', "%$keyword%")
-            ->latest()->paginate($perPage);
+            $labreservations = LabReservation::where('start_date', 'LIKE', "%$keyword%")
+                ->orWhere('end_date', 'LIKE', "%$keyword%")
+                ->orWhere('lab_id', 'LIKE', "%$keyword%")
+                ->orWhere('status_id', 'LIKE', "%$keyword%")
+                ->orWhere('reserved_by', 'LIKE', "%$keyword%")
+                ->orWhere('reserved_at', 'LIKE', "%$keyword%")
+                ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhere('reservable_id', 'LIKE', "%$keyword%")
+                ->orWhere('reservable_type', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
         } else {
-            $computers = Computer::latest()->paginate($perPage);
+            $labreservations = LabReservation::latest()->paginate($perPage);
         }
 
-        return view('computers.index', compact('computers'));
+        return view('lab-reservations.index', compact('labreservations'));
     }
 
     /**
@@ -50,10 +50,7 @@ class ComputersController extends Controller
      */
     public function create()
     {
-        $statuses = \App\Status::all();
-        $labs = \App\Lab::all();
-
-        return view('computers.create', compact('statuses', 'labs'));
+        return view('lab-reservations.create');
     }
 
     /**
@@ -66,16 +63,19 @@ class ComputersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required|max:191',
+			'start_date' => 'required',
+			'end_date' => 'required',
 			'description' => 'required',
 			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id'
+			'status_id' => 'required|exists:status,id',
+			'reserved_by' => 'required|exists:users,id',
+			'reserved_at' => 'required'
 		]);
         $requestData = $request->all();
         
-        Computer::create($requestData);
+        LabReservation::create($requestData);
 
-        return redirect('computers')->with('flash_message', 'Computer added!');
+        return redirect('lab-reservations')->with('flash_message', 'LabReservation added!');
     }
 
     /**
@@ -87,9 +87,9 @@ class ComputersController extends Controller
      */
     public function show($id)
     {
-        $computer = Computer::findOrFail($id);
+        $labreservation = LabReservation::findOrFail($id);
 
-        return view('computers.show', compact('computer'));
+        return view('lab-reservations.show', compact('labreservation'));
     }
 
     /**
@@ -101,11 +101,9 @@ class ComputersController extends Controller
      */
     public function edit($id)
     {
-        $computer = Computer::findOrFail($id);
-        $labs = \App\Lab::all();
-        $statuses = \App\Status::all();
+        $labreservation = LabReservation::findOrFail($id);
 
-        return view('computers.edit', compact('computer', 'statuses', 'labs'));
+        return view('lab-reservations.edit', compact('labreservation'));
     }
 
     /**
@@ -119,17 +117,20 @@ class ComputersController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required|max:191',
+			'start_date' => 'required',
+			'end_date' => 'required',
 			'description' => 'required',
 			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id'
+			'status_id' => 'required|exists:status,id',
+			'reserved_by' => 'required|exists:users,id',
+			'reserved_at' => 'required'
 		]);
         $requestData = $request->all();
         
-        $computer = Computer::findOrFail($id);
-        $computer->update($requestData);
+        $labreservation = LabReservation::findOrFail($id);
+        $labreservation->update($requestData);
 
-        return redirect('computers')->with('flash_message', 'Computer updated!');
+        return redirect('lab-reservations')->with('flash_message', 'LabReservation updated!');
     }
 
     /**
@@ -141,8 +142,8 @@ class ComputersController extends Controller
      */
     public function destroy($id)
     {
-        Computer::destroy($id);
+        LabReservation::destroy($id);
 
-        return redirect('computers')->with('flash_message', 'Computer deleted!');
+        return redirect('lab-reservations')->with('flash_message', 'LabReservation deleted!');
     }
 }

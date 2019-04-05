@@ -1,0 +1,105 @@
+{
+    "fields": [
+        {
+            "name": "start_date",
+            "type": "datetime"
+        },
+        {
+            "name": "end_date",
+            "type": "datetime"
+        },
+        {
+            "name": "lab_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "status_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "reserved_by",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "reserved_at",
+            "type": "datetime"
+        },
+        {
+            "name": "description",
+            "type": "text"
+        },
+        {
+            "name": "reservable_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "reservable_type",
+            "type": "string"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "lab_id",
+            "references": "id",
+            "on": "labs",
+            "onDelete": "cascade"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        },
+        {
+            "column": "reserved_by",
+            "references": "id",
+            "on": "users"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "lab",
+            "type": "belongsTo",
+            "class": "App\\Lab"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Status"
+        },
+        {
+            "name": "reserved_by",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "start_date",
+            "rules": "required"
+        },
+        {
+            "field": "end_date",
+            "rules": "required"
+        },
+        {
+            "field": "description",
+            "rules": "required"
+        },
+        {
+            "field": "lab_id",
+            "rules": "required|exists:labs,id"
+        },
+        {
+            "field": "status_id",
+            "rules": "required|exists:status,id"
+        },
+        {
+            "field": "reserved_by",
+            "rules": "required|exists:users,id"
+        },
+        {
+            "field": "reserved_at",
+            "rules": "required"
+        }
+    ]
+}

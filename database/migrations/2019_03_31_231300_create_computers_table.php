@@ -13,11 +13,11 @@ class CreateComputersTable extends Migration
     public function up()
     {
         Schema::create('computers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
-            $table->integer('lab_id')->unsigned();
+            $table->bigInteger('lab_id')->unsigned();
             $table->integer('status_id')->unsigned();
             $table->foreign('lab_id')->references('id')->on('labs')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('status_id')->references('id')->on('status');

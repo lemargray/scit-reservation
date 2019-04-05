@@ -27,3 +27,6 @@ Route::get('test/created', function(){
 })->name('test');
 Route::resource('labs', 'LabsController');
 Route::resource('computers', 'ComputersController');
+Route::resource('courses', 'CoursesController');
+Route::resource('closures', 'ClosuresController');
+Route::resource('lab-reservations', 'LabReservationsController');
