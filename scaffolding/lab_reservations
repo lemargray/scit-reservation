@@ -17,7 +17,8 @@
             "type": "integer#unsigned"
         },
         {
-            "name": "reserved_by",
+            "name": "
+            reserved_by",
             "type": "integer#unsigned"
         },
         {

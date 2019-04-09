@@ -14,6 +14,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.2.2/dist/sweetalert2.all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  
+  <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
+  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>
+  <link href='{{asset("/packages/core/main.css")}}' rel='stylesheet' />
+  <link href='{{asset("/packages/daygrid/main.css")}}' rel='stylesheet' />
+  <link href='{{asset("/packages/timegrid/main.css")}}' rel='stylesheet' />
+  <script src='{{asset("/packages/core/main.js")}}'></script>
+  <script src='{{asset("/packages/interaction/main.js")}}'></script>
+  <script src='{{asset("/packages/daygrid/main.js")}}'></script>
+  <script src='{{asset("/packages/timegrid/main.js")}}'></script>
+
+
+  <script src='{{asset("/js/my-calendar.js")}}''></script>
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -38,6 +51,10 @@
     }
   </style>
   <style>
+    #calendar{
+      background-color:#fff;
+      padding:40px 10px;
+    }
     @media(max-width: 767px){
         .content-wrapper, .card .card-body, .card-body{
           padding: 0.3em !important;
@@ -91,8 +108,6 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
-  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <!-- End plugin js for this page-->

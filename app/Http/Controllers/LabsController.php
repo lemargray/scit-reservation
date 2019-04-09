@@ -92,6 +92,11 @@ class LabsController extends Controller
         return view('labs.show', compact('lab'));
     }
 
+    public function reservations($id)
+    {
+        return view('labs.reservations');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
