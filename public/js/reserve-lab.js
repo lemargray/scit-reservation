@@ -1,3 +1,37 @@
+var updateReservation = function (info, whichObject) {
+    var str = info.event.title +" From: " + moment(info[whichObject].start).format('dddd hh:mm a') + " - "; 
+    str += moment(info[whichObject].end).format('hh:mm a') + " to: ";
+    str += moment(info.event.start).format('dddd hh:mm a') + " - "; 
+    str += moment(info.event.end).format('hh:mm a') + " ?"; 
+    console.log(info);
+    // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You want to reschedule " + str,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Reschedule!'
+        }).then((result) => {
+            var updatedData = {_token: $('#csrf').val(), _method: 'PUT', start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm')};
+            console.log(updatedData);
+            if (result.value) {
+                $.post('../../../lab-reservations/'+info.event.id, updatedData)
+                .done(function( data ) {
+                    iziToast.success({
+                        title: 'OK',
+                        position: 'topCenter',
+                        message: 'Successfully rescheduled ' + info.event.title,
+                    });
+                });
+                
+            }else{
+                info.revert();
+            }
+        });
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -12,7 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
         maxTime: '21:00',
         eventOverlap: false,
         defaultDate: '2019-04-12',
-        aspectRatio: 2.35,
+        // aspectRatio: 2.35,
+        height: 'auto',
         navLinks: true, // can click day/week names to navigate views
         selectable: true,
         hiddenDays: [0],
@@ -49,31 +84,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.innerHTML = '<div>'+ event.event.extendedProps.description +'</div>';
             event.el.children[0].children[event.el.children[0].children.length-1].append(e);
         },
-        eventDrop: function(info) {
-            // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to reschedule " + info.event.title +"From: " + info.event.start + "-" + info.event.end + "?",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Reschedule!'
-                }).then((result) => {
-                    if (result.value) {
-                        iziToast.success({
-                            title: 'OK',
-                            position: 'topCenter',
-                            message: 'Successfully rescheduled ' + info.event.title,
-                        });
-                    }else{
-                        info.revert();
-                    }
-                }).bind(iziToast);
-            // if (!confirm("Are you sure you want to drag "+ info.event.title + " here?")) {
-            //   info.revert();
-            // }
-        }
+
+        eventDrop: function(info){
+            updateReservation(info, 'oldEvent');
+        },
+        eventResize: function(info){
+            updateReservation(info, 'prevEvent');
+        },
         // loading: function(bool) {
         //     document.getElementById('loading').style.display = bool ? 'block' : 'none';
         // }

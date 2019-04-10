@@ -16,6 +16,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.2.2/dist/sweetalert2.all.min.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment.js"></script>
+  <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
   
   <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>
@@ -26,6 +28,8 @@
   <script src='{{asset("/packages/interaction/main.js")}}'></script>
   <script src='{{asset("/packages/daygrid/main.js")}}'></script>
   <script src='{{asset("/packages/timegrid/main.js")}}'></script>
+  <!-- <script src='{{asset("/packages/moment/main.js")}}'></script>
+  <script src='{{asset("/packages/moment-timezone/main.js")}}'></script> -->
 
 @yield('scripts')
   <!-- endinject -->

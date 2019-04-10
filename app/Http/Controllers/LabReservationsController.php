@@ -116,19 +116,28 @@ class LabReservationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-			'start_date' => 'required',
-			'end_date' => 'required',
-			'description' => 'required',
-			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id',
-			'reserved_by' => 'required|exists:users,id',
-			'reserved_at' => 'required'
-		]);
-        $requestData = $request->all();
+        // $this->validate($request, [
+		// 	'start_date' => 'required',
+		// 	'end_date' => 'required',
+		// 	// 'status_id' => 'exists:status,id',
+		// ]);
+        $requestData = $request->only(['start_date', 'end_date']);
+        // $requestData['reserved_by'] = auth()->user()->id;
+        // $requestData['reserved_at'] = date(); 
         
-        $labreservation = LabReservation::findOrFail($id);
-        $labreservation->update($requestData);
+        $labreservation = LabReservation::findOrFail($id); 
+        
+        // if($requestData['status_id'] == ''){
+        //     $requestData['status_id'] = $labreservation['status_id'];
+        // }
+        $labreservation->start_date = $requestData['start_date'];
+        $labreservation->end_date = $requestData['end_date'];
+        $labreservation->save();die;
+        // $labreservation->update($requestData);die;
+
+        if($request->wantsJson()){
+            return ["Yes"];
+        }
 
         return redirect('lab-reservations')->with('flash_message', 'LabReservation updated!');
     }
@@ -155,6 +164,7 @@ class LabReservationsController extends Controller
             $arr['end'] = $item->end_date;
             $arr['title'] = $item->reservable->name;
             $arr['description'] = 'Just testing';
+            $arr['id'] = $item->id;
             return $arr;
         });
         return [$keyed->all()];

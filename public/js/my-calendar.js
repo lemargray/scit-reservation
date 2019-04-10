@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
         maxTime: '21:00',
         eventOverlap: false,
         defaultDate: '2019-04-12',
-        aspectRatio: 2.35,
+        // aspectRatio: 2.35,
+        height: 'auto',
         navLinks: true, // can click day/week names to navigate views
         selectable: false,
         hiddenDays: [0],
