@@ -24,10 +24,12 @@
   <link href='{{asset("/packages/core/main.css")}}' rel='stylesheet' />
   <link href='{{asset("/packages/daygrid/main.css")}}' rel='stylesheet' />
   <link href='{{asset("/packages/timegrid/main.css")}}' rel='stylesheet' />
+  <link href='{{asset("/packages/list/main.min.css")}}' rel='stylesheet' />
   <script src='{{asset("/packages/core/main.js")}}'></script>
   <script src='{{asset("/packages/interaction/main.js")}}'></script>
   <script src='{{asset("/packages/daygrid/main.js")}}'></script>
   <script src='{{asset("/packages/timegrid/main.js")}}'></script>
+  <script src='{{asset("/packages/list/main.min.js")}}'></script>
   <!-- <script src='{{asset("/packages/moment/main.js")}}'></script>
   <script src='{{asset("/packages/moment-timezone/main.js")}}'></script> -->
 

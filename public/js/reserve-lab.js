@@ -1,15 +1,19 @@
 var updateReservation = function (info, whichObject) {
-    var str = info.event.title +" From: " + moment(info[whichObject].start).format('dddd hh:mm a') + " - "; 
-    str += moment(info[whichObject].end).format('hh:mm a') + " to: ";
+    if(calendar.maxTime < info.event.end){
+        info.revert();
+    }
+    var str = "<b>"+info.event.title +"</b><br><b>From:</b> " + moment(info[whichObject].start).format('dddd hh:mm a') + " - "; 
+    str += moment(info[whichObject].end).format('hh:mm a') + "<br><b>to:</b> ";
     str += moment(info.event.start).format('dddd hh:mm a') + " - "; 
     str += moment(info.event.end).format('hh:mm a') + " ?"; 
     console.log(info);
     // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
     Swal.fire({
         title: 'Are you sure?',
-        text: "You want to reschedule " + str,
+        // text: "You want to reschedule " + str,
         type: 'warning',
         showCancelButton: true,
+        html: "You want to reschedule " + str,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Reschedule!'
@@ -24,6 +28,15 @@ var updateReservation = function (info, whichObject) {
                         position: 'topCenter',
                         message: 'Successfully rescheduled ' + info.event.title,
                     });
+                })
+                .fail(function(xhr, status, error) {
+                    info.revert();
+
+                    iziToast.error({
+                        title: 'FAILED!',
+                        position: 'topCenter',
+                        message: 'Unable to rescheduled ' + info.event.title,
+                    });
                 });
                 
             }else{
@@ -34,6 +47,18 @@ var updateReservation = function (info, whichObject) {
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    var Draggable = FullCalendarInteraction.Draggable;
+
+    var containerEl = document.getElementById('external-events');    
+
+    new Draggable(containerEl, {
+        itemSelector: '.fc-event',
+        // eventData: function(eventEl) {
+        //     var event = JSON.parse($(eventEl)[0].getAttribute('data-event'));
+        //     // console.log(event);
+        //   return event;
+        // }
+    });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
@@ -90,6 +115,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventResize: function(info){
             updateReservation(info, 'prevEvent');
+        },
+        eventReceive: function(info){
+            console.log(info);
         },
         // loading: function(bool) {
         //     document.getElementById('loading').style.display = bool ? 'block' : 'none';
