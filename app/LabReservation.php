@@ -39,5 +39,12 @@ class LabReservation extends Model
     {
         return $this->belongsTo('App\User');
     }
-    
+    public function reservable()
+    {
+        return $this->morphTo();
+    }
+    // public function course()
+    // {
+    //     return $this->morphMany('App\LabReservation', 'reservable');
+    // }
 }

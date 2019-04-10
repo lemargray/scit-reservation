@@ -27,5 +27,8 @@ class Course extends Model
      */
     protected $fillable = ['name', 'description'];
 
-    
+    public function labReservations()
+    {
+        return $this->morphMany('App\LabReservation', 'reservable');
+    }
 }

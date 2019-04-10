@@ -31,20 +31,9 @@ Route::resource('computers', 'ComputersController');
 Route::resource('courses', 'CoursesController');
 Route::resource('closures', 'ClosuresController');
 Route::resource('lab-reservations', 'LabReservationsController');
-Route::middleware('auth')->get('/api/reservations', function (Request $request) {
-    return [
-        [
-            'title'=> 'Dinner',
-            'start'=> '2019-04-12T20:00:00'
-        ],
-        [
-            'title'=> 'Birthday Party',
-            'start'=> '2019-04-13T07:00:00'
-        ],
-        [
-            'title'=> 'Click for Google',
-            'url'=> 'http://google.com/',
-            'start'=> '2019-04-28'
-        ]
-    ];
+Route::middleware('auth')->name('lab-reservation')->get('/api/reservations/{id}', 'LabReservationsController@apiLabReservations');
+
+Route::middleware('auth')->name('reserve.lab')->get('reserve/lab/{id}', function($id){
+    return view('labs.reserve')->with('id', $id);
 });
+

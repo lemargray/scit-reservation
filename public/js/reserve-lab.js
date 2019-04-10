@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultDate: '2019-04-12',
         aspectRatio: 2.35,
         navLinks: true, // can click day/week names to navigate views
-        selectable: false,
+        selectable: true,
         hiddenDays: [0],
         allDaySlot: false,
         defaultView: 'timeGridWeek',
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             calendar.unselect()
         },
-        editable: false,
+        editable: true,
         eventLimit: true, // allow "more" link when too many events
         events: {
             url: '../../api/reservations/'+$('#lab-id').val(),
@@ -49,6 +49,31 @@ document.addEventListener('DOMContentLoaded', function() {
             e.innerHTML = '<div>'+ event.event.extendedProps.description +'</div>';
             event.el.children[0].children[event.el.children[0].children.length-1].append(e);
         },
+        eventDrop: function(info) {
+            // alert(info.event.title + " was dropped on " + info.event.start.toISOString());
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to reschedule " + info.event.title +"From: " + info.event.start + "-" + info.event.end + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reschedule!'
+                }).then((result) => {
+                    if (result.value) {
+                        iziToast.success({
+                            title: 'OK',
+                            position: 'topCenter',
+                            message: 'Successfully rescheduled ' + info.event.title,
+                        });
+                    }else{
+                        info.revert();
+                    }
+                }).bind(iziToast);
+            // if (!confirm("Are you sure you want to drag "+ info.event.title + " here?")) {
+            //   info.revert();
+            // }
+        }
         // loading: function(bool) {
         //     document.getElementById('loading').style.display = bool ? 'block' : 'none';
         // }

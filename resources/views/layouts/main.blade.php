@@ -11,9 +11,11 @@
   <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
   <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8.2.2/dist/sweetalert2.all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
   
   <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
   <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>
@@ -25,8 +27,7 @@
   <script src='{{asset("/packages/daygrid/main.js")}}'></script>
   <script src='{{asset("/packages/timegrid/main.js")}}'></script>
 
-
-  <script src='{{asset("/js/my-calendar.js")}}''></script>
+@yield('scripts')
   <!-- endinject -->
   <!-- plugin css for this page -->
   <!-- End plugin css for this page -->
@@ -75,6 +76,12 @@
           display: none;
         }
     }
+</style>
+<style>
+  .fc-event{
+    background-color: #ffdada !important;
+    border: 1px solid #ffc8c8;
+  }
 </style>
 </head>
 

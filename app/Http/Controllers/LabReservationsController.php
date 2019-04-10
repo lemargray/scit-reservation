@@ -146,4 +146,17 @@ class LabReservationsController extends Controller
 
         return redirect('lab-reservations')->with('flash_message', 'LabReservation deleted!');
     }
+
+    public function apiLabReservations($id){
+        $reservations = \App\LabReservation::where('lab_id', $id)->get();
+        $keyed = $reservations->mapWithKeys(function ($item) {
+            $a = explode(' ', $item->start_date);
+            $arr['start'] = $item->start_date;///$a[0] . 'T' . $a[1];
+            $arr['end'] = $item->end_date;
+            $arr['title'] = $item->reservable->name;
+            $arr['description'] = 'Just testing';
+            return $arr;
+        });
+        return [$keyed->all()];
+    }
 }

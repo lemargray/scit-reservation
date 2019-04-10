@@ -44,6 +44,7 @@
                             <td class="hide-mobile">{{ date('h:i a', strtotime($item->closing_time)) }}</td>
                             <td class="hide-mobile"><span class="badge badge-{{$item->status->name == 'Active'? 'success':'danger'}}">{{$item->status->name}}</span></td>
                             <td>
+                                <a href="{{route('labs.reservations', ['id' => $item->id])}}"><button class="btn btn-primary btn-sm"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="hide-mobile">Schedule</span></button></a>
                                 <a href="{{ url('/labs/' . $item->id) }}" title="View Lab"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> <span class="hide-mobile">View</span></button></a>
                                 <a href="{{ url('/labs/' . $item->id . '/edit') }}" title="Edit Lab"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> <span class="hide-mobile">Edit</span></button></a>
 
