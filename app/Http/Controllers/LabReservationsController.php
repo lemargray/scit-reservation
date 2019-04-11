@@ -67,13 +67,19 @@ class LabReservationsController extends Controller
 			'end_date' => 'required',
 			'description' => 'required',
 			'lab_id' => 'required|exists:labs,id',
-			'status_id' => 'required|exists:status,id',
-			'reserved_by' => 'required|exists:users,id',
-			'reserved_at' => 'required'
+			'reservable_id' => 'required',
+			'reservable_type' => 'required'
 		]);
         $requestData = $request->all();
-        
-        LabReservation::create($requestData);
+        $requestData['reserved_by'] = auth()->user()->id;
+        $requestData['reserved_at'] = date('Y-m-d');
+        $requestData['status_id'] = 1;
+
+        $id = LabReservation::create($requestData)->id;
+
+        if($request->ajax()){
+            return $id;
+        }
 
         return redirect('lab-reservations')->with('flash_message', 'LabReservation added!');
     }
@@ -161,15 +167,15 @@ class LabReservationsController extends Controller
 
     public function apiLabReservations($id){
         $reservations = \App\LabReservation::where('lab_id', $id)->get();
-        $keyed = $reservations->mapWithKeys(function ($item) {
-            $a = explode(' ', $item->start_date);
-            $arr['start'] = $item->start_date;///$a[0] . 'T' . $a[1];
-            $arr['end'] = $item->end_date;
-            $arr['title'] = $item->reservable->name;
-            $arr['description'] = 'Just testing';
-            $arr['id'] = $item->id;
-            return $arr;
+        $keyed = $reservations->map(function ($item) {
+            return[
+                'start' => $item->start_date,
+                'end' => $item->end_date,
+                'title' => $item->reservable->name,
+                'description' => $item->reservable->description,
+                'id' => $item->id
+            ];
         });
-        return [$keyed->all()];
+        return $keyed->all();
     }
 }

@@ -61,7 +61,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#faults" aria-expanded="false" aria-controls="faults">
-              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <i class="menu-icon fas fa-exclamation-triangle"></i>
               <span class="menu-title">Faults</span>
               <i class="menu-arrow"></i>
             </a>
@@ -78,7 +78,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#labs" aria-expanded="false" aria-controls="labs">
-              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <i class="menu-icon fas fa-building"></i>
               <span class="menu-title">Lab Management</span>
               <i class="menu-arrow"></i>
             </a>
@@ -95,7 +95,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#computers" aria-expanded="false" aria-controls="computers">
-              <i class="menu-icon mdi mdi-account-multiple-plus"></i>
+              <i class="menu-icon fas fa-desktop"></i>
               <span class="menu-title">Computer Management</span>
               <i class="menu-arrow"></i>
             </a>
@@ -109,6 +109,18 @@
                 </li>
               </ul>
             </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('courses.index')}}">
+              <i class="menu-icon fas fa-book"></i>
+              <span class="menu-title">Courses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{route('closures.index')}}">
+              <i class="menu-icon fas fa-door-closed"></i>
+              <span class="menu-title">Closures</span>
+            </a>
           </li>
         </ul>
       </nav>

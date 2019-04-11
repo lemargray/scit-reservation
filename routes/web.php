@@ -34,7 +34,10 @@ Route::resource('lab-reservations', 'LabReservationsController');
 Route::middleware('auth')->name('lab-reservation')->get('/api/reservations/{id}', 'LabReservationsController@apiLabReservations');
 
 Route::middleware('auth')->name('reserve.lab')->get('reserve/lab/{id}', function($id){
+    $lab = \App\Lab::find($id);
+
     $courses = \App\Course::all();
-    return view('labs.reserve')->with('id', $id)->with('courses', $courses);
+    $closures = \App\Closure::all();
+    return view('labs.reserve')->with('lab', $lab)->with('courses', $courses)->with('closures', $closures);
 });
 

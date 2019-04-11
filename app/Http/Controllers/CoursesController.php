@@ -57,7 +57,8 @@ class CoursesController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required'
+			'description' => 'required',
+			'duration' => 'required'
 		]);
         $requestData = $request->all();
         
@@ -106,8 +107,9 @@ class CoursesController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required'
-		]);
+			'description' => 'required',
+			'duration' => 'required'
+        ]);
         $requestData = $request->all();
         
         $course = Course::findOrFail($id);

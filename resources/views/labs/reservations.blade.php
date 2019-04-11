@@ -4,7 +4,7 @@
 @endsection;
 
 @section('content')
-<input type="hidden" id="lab-id" value="{{$id}}">
-<h1>Lab A Schedule</h1>
+<input type="hidden" id="lab-id" value="{{$lab->id}}">
+<h1>{{$lab->name}} Schedule <a href="{{route('reserve.lab', $lab->id)}}"><i style="color:#5b6fb9;cursor:pointer" class="far fa-edit" title="Modify schedule"></i></a></h1>
 <div id='calendar'></div>
 @endsection

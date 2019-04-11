@@ -1,7 +1,8 @@
 var updateReservation = function (info, whichObject) {
-    if(calendar.maxTime < info.event.end){
-        info.revert();
-    }
+    console.log(info.event.id);
+    // if(calendar.maxTime < info.event.end){
+    //     info.revert();
+    // }
     var str = "<b>"+info.event.title +"</b><br><b>From:</b> " + moment(info[whichObject].start).format('dddd hh:mm a') + " - "; 
     str += moment(info[whichObject].end).format('hh:mm a') + "<br><b>to:</b> ";
     str += moment(info.event.start).format('dddd hh:mm a') + " - "; 
@@ -21,7 +22,8 @@ var updateReservation = function (info, whichObject) {
             var updatedData = {_token: $('#csrf').val(), _method: 'PUT', start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm')};
             console.log(updatedData);
             if (result.value) {
-                $.post('../../../lab-reservations/'+info.event.id, updatedData)
+                var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
+                $.post('../../lab-reservations/'+ id, updatedData)
                 .done(function( data ) {
                     iziToast.success({
                         title: 'OK',
@@ -45,6 +47,40 @@ var updateReservation = function (info, whichObject) {
         });
 };
 
+var addReservation = function (info) {
+    var addData = {_token: $('#csrf').val(), 
+        start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), 
+        end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm'),
+        reservable_id: info.event.extendedProps.reservable_id,
+        reservable_type: info.event.extendedProps.reservable_type,
+        description: info.event.extendedProps.description,
+        lab_id: info.event.extendedProps.lab_id,
+    };
+
+    $.post('../../lab-reservations', addData)
+    .done(function( data ) {
+        iziToast.success({
+            title: 'OK',
+            position: 'topCenter',
+            message: 'Lab successfully reserve for ' + info.event.title,
+        });
+        console.log(data);
+        info.event.setExtendedProp('id', data);
+        console.log("id: "+info.event.extendedProps.id);
+    })
+    .fail(function(xhr, status, error) {
+        info.event.remove();
+
+        iziToast.error({
+            title: 'FAILED!',
+            position: 'topCenter',
+            message: 'Unable to reserve lab for ' + info.event.title,
+        });
+
+        
+    });
+};
+
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var Draggable = FullCalendarInteraction.Draggable;
@@ -66,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             left: 'prev,next',// today',
             center: 'title',
             right: '',///*'dayGridMonth,*/'timeGridWeek,timeGridDay'
-        },
+        },        
         minTime:'8:00',
         maxTime: '21:00',
         eventOverlap: false,
@@ -117,7 +153,9 @@ document.addEventListener('DOMContentLoaded', function() {
             updateReservation(info, 'prevEvent');
         },
         eventReceive: function(info){
-            console.log(info);
+           addReservation(info);    
+           console.log(calendar.getEventById(7));
+        //    console.log(calendar.getEventById('new').id);
         },
         // loading: function(bool) {
         //     document.getElementById('loading').style.display = bool ? 'block' : 'none';

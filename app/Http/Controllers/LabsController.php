@@ -94,7 +94,8 @@ class LabsController extends Controller
 
     public function reservations($id)
     {
-        return view('labs.reservations')->with('id', $id);
+        $lab = Lab::find($id);
+        return view('labs.reservations')->with('id', $id)->with('lab', $lab);
     }
 
     /**

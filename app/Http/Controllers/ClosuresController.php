@@ -57,7 +57,8 @@ class ClosuresController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required'
+			'description' => 'required',
+			'duration' => 'required'
 		]);
         $requestData = $request->all();
         
@@ -106,7 +107,8 @@ class ClosuresController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|max:191',
-			'description' => 'required'
+			'description' => 'required',
+			'duration' => 'required'
 		]);
         $requestData = $request->all();
         
