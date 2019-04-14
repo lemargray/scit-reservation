@@ -8,13 +8,13 @@
 		<title>SCIT Reservation App</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{asset('/login_assets/css/bootstrap.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/linericon/style.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/css/font-awesome.min.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/lightbox/simpleLightbox.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/nice-select/css/nice-select.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/animate-css/animate.css')}}">
-        <link rel="stylesheet" href="{{asset('/login_assets/vendors/popup/magnific-popup.css')}}">
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/linericon/style.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/css/font-awesome.min.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/lightbox/simpleLightbox.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/nice-select/css/nice-select.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/animate-css/animate.css')}}"> -->
+        <!-- <link rel="stylesheet" href="{{asset('/login_assets/vendors/popup/magnific-popup.css')}}"> -->
         <!-- main css -->
         <link rel="stylesheet" href="{{asset('/login_assets/css/style.css')}}">
 		<link rel="stylesheet" href="{{asset('/login_assets/css/responsive.css')}}">
@@ -48,6 +48,10 @@
             }
 
 			@media(max-width: 992px){
+				.form-control, .form-control:focus{
+					background-color: #FFFFFF !important;
+					color: #000000 !important;
+				}
 				.app_btn_area, #download-text{
 					display: none;
 				}
@@ -60,6 +64,7 @@
                 .welcome-text{
                     font-size: 1.5rem !important;
                 }
+				
 			}
 		</style>
     </head>
@@ -198,17 +203,17 @@
         <script src="{{asset('/login_assets/js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('/login_assets/js/popper.js')}}"></script>
         <script src="{{asset('/login_assets/js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('/login_assets/js/stellar.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/lightbox/simpleLightbox.min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/nice-select/js/jquery.nice-select.min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/isotope/imagesloaded.pkgd.min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/isotope/isotope-min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.js')}}"></script>
-        <script src="{{asset('/login_assets/js/jquery.ajaxchimp.min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/counter-up/jquery.waypoints.min.js')}}"></script>
-        <script src="{{asset('/login_assets/vendors/counter-up/jquery.counterup.js')}}"></script>
+        <!-- <script src="{{asset('/login_assets/js/stellar.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/lightbox/simpleLightbox.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/nice-select/js/jquery.nice-select.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/isotope/imagesloaded.pkgd.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/isotope/isotope-min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/owl-carousel/owl.carousel.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/js/jquery.ajaxchimp.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/counter-up/jquery.waypoints.min.js')}}"></script> -->
+        <!-- <script src="{{asset('/login_assets/vendors/counter-up/jquery.counterup.js')}}"></script>
         <script src="{{asset('/login_assets/js/mail-script.js')}}"></script>
         <script src="{{asset('/login_assets/vendors/popup/jquery.magnific-popup.min.js')}}"></script>
-        <script src="{{asset('/login_assets/js/theme.js')}}"></script>
+        <script src="{{asset('/login_assets/js/theme.js')}}"></script> -->
     </body>
 </html>
