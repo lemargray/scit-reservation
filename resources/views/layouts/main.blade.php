@@ -63,12 +63,20 @@
       background-color:#fff;
       padding:40px 10px;
     }
+
+    .mobile-only{
+      display: none;
+    }
+    @media(max-width: 991px){
+      .mobile-only{
+        display: block;
+      }
+    }
     @media(max-width: 767px){
         .content-wrapper, .card .card-body, .card-body{
           padding: 0.3em !important;
           margin:0 !important;
         }
-
         
         .table-mobile th, .table-mobile td {
             padding: 0.3rem !important;

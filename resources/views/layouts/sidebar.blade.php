@@ -11,6 +11,15 @@
                   <div>
                     <small class="designation text-muted">{{ Auth::user()->role->description }}</small>
                     <span class="status-indicator online"></span>
+                    <div style="margin-top:5px;" class="mobile-only">
+                      <a style="padding:5px !important" class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }} <i class="fas fa-sign-out-alt"></i>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
