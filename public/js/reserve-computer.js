@@ -23,7 +23,7 @@ var updateReservation = function (info, whichObject) {
             console.log(updatedData);
             if (result.value) {
                 var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                $.post('../../lab-reservations/'+ id, updatedData)
+                $.post('../../computer-reservations/'+ id, updatedData)
                 .done(function( data ) {
                     iziToast.success({
                         title: 'OK',
@@ -32,6 +32,7 @@ var updateReservation = function (info, whichObject) {
                     });
                 })
                 .fail(function(xhr, status, error) {
+                    console.log(xhr);
                     info.revert();
 
                     iziToast.error({
@@ -51,18 +52,16 @@ var addReservation = function (info) {
     var addData = {_token: $('#csrf').val(), 
         start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), 
         end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm'),
-        reservable_id: info.event.extendedProps.reservable_id,
-        reservable_type: info.event.extendedProps.reservable_type,
         description: info.event.extendedProps.description,
-        lab_id: info.event.extendedProps.lab_id,
+        computer_id: info.event.extendedProps.computer_id,
     };
 
-    $.post('../../lab-reservations', addData)
+    $.post('../../computer-reservations', addData)
     .done(function( data ) {
         iziToast.success({
             title: 'OK',
             position: 'topCenter',
-            message: 'Lab successfully reserve for ' + info.event.title,
+            message: 'computer successfully reserve for ' + info.event.title,
         });
         console.log(data);
         info.event.setExtendedProp('id', data);
@@ -70,12 +69,13 @@ var addReservation = function (info) {
         console.log("id: "+info.event.extendedProps.id);
     })
     .fail(function(xhr, status, error) {
+        console.log(xhr);
         info.event.remove();
 
         iziToast.error({
             title: 'FAILED!',
             position: 'topCenter',
-            message: 'Unable to reserve lab for ' + info.event.title,
+            message: 'Unable to reserve computer for ' + info.event.title,
         });
 
         
@@ -127,24 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             startTime: '08:00', // a start time (10am in this example)
             endTime: '21:00', // an end time (6pm in this example)
-        },
-        // selectMirror: true,  
-        select: function(arg) {
-            // var title = prompt('Event Title:');
-            // if (title) {
-            // calendar.addEvent({
-            //     title: title,
-            //     start: arg.start,
-            //     end: arg.end,
-            //     allDay: arg.allDay
-            // })
-            // }
-            // calendar.unselect()
-        },
+        }, 
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         events: {
-            url: '../../api/reservations/'+$('#lab-id').val(),
+            url: '../../api/computer-reservations/'+$('#lab-id').val(),
             failure: function(error) {
                console.log(error);
             }
@@ -170,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log(updatedData);
                     if (result.value) {
                         var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                        $.post('../../lab-reservations/'+ id, updatedData)
+                        $.post('../../computer-reservations/'+ id, updatedData)
                         .done(function( data ) {                            
                             info.event.remove();
 

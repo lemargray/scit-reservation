@@ -41,3 +41,13 @@ Route::middleware('auth')->name('reserve.lab')->get('reserve/lab/{id}', function
     return view('labs.reserve')->with('lab', $lab)->with('courses', $courses)->with('closures', $closures);
 });
 
+Route::middleware('auth')->name('reserve.computer')->get('reserve/computer/{id}', function($id){
+    $computer = \App\Computer::find($id);
+
+    $hours = \App\ComputerHour::all();
+    return view('reservations.reserve')->with('computer', $computer)->with('hours', $hours);
+});
+
+Route::resource('computer-hours', 'ComputerHoursController');
+Route::resource('computer-reservations', 'ComputerReservationsController');
+Route::middleware('auth')->name('computer-reservation')->get('/api/computer-reservations/{id}', 'ComputerReservationsController@apiComputerReservations');

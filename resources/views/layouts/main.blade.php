@@ -67,8 +67,12 @@
     .mobile-only{
       display: none;
     }
-    @media(max-width: 991px){
-      .mobile-only{
+
+    .logout-button{
+      display: none;
+    }
+    @media(max-width: 1200px){
+      .logout-button{
         display: block;
       }
     }
@@ -98,6 +102,7 @@
     border: 1px solid #ffc8c8;
   }
 </style>
+@yield('styles')
 </head>
 
 <body>

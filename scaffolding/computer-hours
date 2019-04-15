@@ -1,0 +1,14 @@
+{
+    "fields": [
+        {
+            "name": "duration",
+            "type": "number"
+        }
+    ],
+    "validations": [
+        {
+            "field": "duration",
+            "rules": "required|unique:computer-hours,duration"
+        }
+    ]
+}

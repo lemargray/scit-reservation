@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lab extends Model
+class ComputerReservation extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'labs';
+    protected $table = 'computer_reservations';
 
     /**
     * The database primary key value.
@@ -25,20 +25,19 @@ class Lab extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'opening_time', 'closing_time', 'status', 'user_id', 'status_id'];
+    protected $fillable = ['start_date', 'end_date', 'computer_id', 'status_id', 'reserved_by', 'reserved_at', 'description'];
 
-    public function user()
+    public function computer()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Computer');
     }
     public function status()
     {
         return $this->belongsTo('App\Status');
     }
-
-    public function computers()
+    public function reservedBy()
     {
-        return $this->hasMany('App\Computer');
+        return $this->belongsTo('App\User', 'reserved_by', 'id');
     }
     
 }

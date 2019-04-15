@@ -1,0 +1,97 @@
+{
+    "fields": [
+        {
+            "name": "start_date",
+            "type": "datetime"
+        },
+        {
+            "name": "end_date",
+            "type": "datetime"
+        },
+        {
+            "name": "computer_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "status_id",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "reserved_by",
+            "type": "integer#unsigned"
+        },
+        {
+            "name": "reserved_at",
+            "type": "datetime"
+        },
+        {
+            "name": "description",
+            "type": "text"
+        }
+    ],
+    "foreign_keys": [
+        {
+            "column": "computer_id",
+            "references": "id",
+            "on": "computers",
+            "onDelete": "cascade"
+        },
+        {
+            "column": "status_id",
+            "references": "id",
+            "on": "status"
+        },
+        {
+            "column": "reserved_by",
+            "references": "id",
+            "on": "users"
+        }
+    ],
+    "relationships": [
+        {
+            "name": "computer",
+            "type": "belongsTo",
+            "class": "App\\Computer"
+        },
+        {
+            "name": "status",
+            "type": "belongsTo",
+            "class": "App\\Status"
+        },
+        {
+            "name": "reserved_by",
+            "type": "belongsTo",
+            "class": "App\\User"
+        }
+    ],
+    "validations": [
+        {
+            "field": "start_date",
+            "rules": "required"
+        },
+        {
+            "field": "end_date",
+            "rules": "required"
+        },
+        {
+            "field": "description",
+            "rules": "required"
+        },
+        {
+            "field": "computer_id",
+            "rules": "required|exists:computers,id"
+        },
+        {
+            "field": "status_id",
+            "rules": "required|exists:status,id"
+        },
+        {
+            "field": "reserved_by",
+            "rules": "required|exists:users,id"
+        },
+        {
+            "field": "reserved_at",
+            "rules": "required"
+        }
+    ]
+}

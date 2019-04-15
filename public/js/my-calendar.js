@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventRender: function(event, element){
             var e = document.createElement('div');
-            e.innerHTML = '<div style="font-size:8px;font-style:italic">'+ event.event.extendedProps.description +'</div>';
+            e.innerHTML = '<div style="font-size:10px;font-style:italic">'+ event.event.extendedProps.description +'</div>';
             event.el.children[0].children[event.el.children[0].children.length-1].append(e);
         },
         // loading: function(bool) {

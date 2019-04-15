@@ -11,7 +11,7 @@
                   <div>
                     <small class="designation text-muted">{{ Auth::user()->role->description }}</small>
                     <span class="status-indicator online"></span>
-                    <div style="margin-top:5px;" class="mobile-only">
+                    <div style="margin-top:5px;" class="logout-button">
                       <a style="padding:5px !important" class="btn btn-primary" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         {{ __('Logout') }} <i class="fas fa-sign-out-alt"></i>
 
