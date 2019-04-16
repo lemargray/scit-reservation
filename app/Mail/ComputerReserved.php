@@ -11,6 +11,8 @@ class ComputerReserved extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $reservation;
+
     /**
      * Create a new message instance.
      *

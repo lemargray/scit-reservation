@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\ComputerReservation;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
+
 class ComputerReservationsController extends Controller
 {
     /**
@@ -68,14 +70,14 @@ class ComputerReservationsController extends Controller
 
         $reservation = ComputerReservation::create($requestData);
 
-        $reserved = \App\Mail\ComputerReserved($reservation);
+        $reserved = new \App\Mail\ComputerReserved($reservation);
 
         Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
             return $reservation->id;
         }
-        return redirect('computer-reservations')->with('flash_message', 'ComputerReservation added!');
+        return redirect('computer-reservations')->with('flash_message', 'Computer Reservation added!');
     }
 
     /**
