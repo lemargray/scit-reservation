@@ -9,7 +9,7 @@
     {!! $errors->first('description', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('duration') ? 'has-error' : ''}}">
-    <label for="duration" class="control-label">{{ 'Duration' }}</label>
+    <label for="duration" class="control-label">{{ 'Duration (hrs)' }}</label>
     <input class="form-control" name="duration" type="number" step="1" id="duration" value="{{ isset($course->duration) ? $course->duration : ''}}" required>
     {!! $errors->first('duration', '<p class="help-block">:message</p>') !!}
 </div>

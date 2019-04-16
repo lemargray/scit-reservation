@@ -71,6 +71,53 @@
     .logout-button{
       display: none;
     }
+    .small-box {
+      border-radius: .25rem;
+      box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+      position: relative;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .my-bg-info, .my-label-info {
+      background-color: #17a2b8!important;
+      color: #FFFFFF;
+    }
+    .small-box>.inner {
+        padding: 10px;
+    }
+    .small-box .icon {
+        transition: all .3s linear;
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        z-index: 0;
+        font-size: 90px;
+        color: rgba(0,0,0,.15);
+    }
+    .small-box>.small-box-footer {
+        position: relative;
+        text-align: center;
+        padding: 3px 0;
+        color: #fff;
+        color: rgba(255,255,255,.8);
+        display: block;
+        z-index: 10;
+        background: rgba(0,0,0,.1);
+        text-decoration: none;
+    }
+    .small-box h3 {
+        font-size: 38px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        white-space: nowrap;
+        padding: 0;
+    }
+    .small-box:hover {
+        text-decoration: none;
+    }
+    .small-box:hover .icon {
+        font-size: 95px;
+    }
     @media(max-width: 1200px){
       .logout-button{
         display: block;
@@ -97,9 +144,19 @@
     }
 </style>
 <style>
-  .fc-event{
+  .fc-event-red{
     background-color: #ffdada !important;
     border: 1px solid #ffc8c8;
+  }
+  .fc-event-green{
+    background-color: #9aec9a !important;
+    border: 1px solid #52e152 !important;
+    color: #000000 !important;
+  }
+  .fc-event-blue{
+    background-color: #9abfec !important;
+    border: 1px solid #5b93cd !important;
+    color: #000000 !important;
   }
 </style>
 @yield('styles')

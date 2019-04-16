@@ -52,7 +52,7 @@ var addReservation = function (info) {
     var addData = {_token: $('#csrf').val(), 
         start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), 
         end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm'),
-        description: info.event.extendedProps.description,
+        // description: moment(info.event.end).diff(moment(info.event.start), "hours")+"hrs",
         computer_id: info.event.extendedProps.computer_id,
     };
 
@@ -66,6 +66,7 @@ var addReservation = function (info) {
         console.log(data);
         info.event.setExtendedProp('id', data);
         info.event.setProp('editable', true);
+        info.event.setProp('classNames', ["fc-event-green"]);
         console.log("id: "+info.event.extendedProps.id);
     })
     .fail(function(xhr, status, error) {
@@ -116,6 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         allDaySlot: false,
         defaultView: $(window).width() < 765 ? 'timeGrid':'timeGridWeek',
         // defaultView: 'timeGridWeek',
+        eventBackgroundColor: '#9aec9a',
+        // eventBorderColor: '#52e152',
+        // eventColor: '#000',
         eventTimeFormat: {
             hour: 'numeric',
             minute: '2-digit',
@@ -179,20 +183,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         },
         eventRender: function(event, element){
-            var e = document.createElement('div');
-            e.innerHTML = '<div style="font-size:11px;font-style:italic">'+ event.event.extendedProps.description +'</div>';
-            event.el.children[0].children[event.el.children[0].children.length-1].append(e);
+            if(event.event.extendedProps.description != undefined || event.event.extendedProps.description != null){
+                var e = document.createElement('div');
+                e.innerHTML = '<div style="font-size:11px;font-style:italic">'+ event.event.extendedProps.description +'</div>';
+                event.el.children[0].children[event.el.children[0].children.length-1].append(e);
+            }
         },
 
         eventDrop: function(info){
             updateReservation(info, 'oldEvent');
         },
         eventResize: function(info){
+            if(moment(info.event.end).diff(moment(info.event.start), "minutes")> 120){
+                info.revert();
+                iziToast.error({
+                    title: 'FAILED!',
+                    position: 'topCenter',
+                    message: 'You cannot excess the 2 hours limit per day.',
+                });
+                return;
+            }
             updateReservation(info, 'prevEvent');
         },
         eventReceive: function(info){
-            // alert(moment());
-            if(moment().isAfter(info.event.start)){
+            // alert(moment().utcOffset(60));
+            if(moment(info.event.start).add(1, "hour").utcOffset(-5).isBefore(moment().utcOffset(-5))){
                 info.event.remove();
                 iziToast.error({
                     title: 'FAILED!',

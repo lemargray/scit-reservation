@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         minTime:'8:00',
         maxTime: '21:00',
         eventOverlap: false,
-        defaultDate: '2019-04-12',
+        // defaultDate: '2019-04-12',
         // aspectRatio: 2.35,
         height: 'auto',
         navLinks: true, // can click day/week names to navigate views
@@ -204,8 +204,11 @@ document.addEventListener('DOMContentLoaded', function() {
             updateReservation(info, 'prevEvent');
         },
         eventReceive: function(info){
-            // alert(moment());
-            if(moment().isAfter(info.event.start)){
+            // console.log(moment().utcOffset(60));
+            // alert(moment().utcOffset(-5));
+            // alert(moment(info.event.start).add(1, "hour").utcOffset(-5));
+
+            if(moment(info.event.start).add(1, "hour").utcOffset(-5).isBefore(moment().utcOffset(-5), "minutes")){
                 info.event.remove();
                 iziToast.error({
                     title: 'FAILED!',
@@ -215,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
            addReservation(info);    
-           console.log(calendar.getEventById(7));
+        //    console.log(calendar.getEventById(7));
         //    console.log(calendar.getEventById('new').id);
         },
         // loading: function(bool) {

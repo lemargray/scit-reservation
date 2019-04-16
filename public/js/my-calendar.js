@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         minTime:'8:00',
         maxTime: '21:00',
         eventOverlap: false,
-        defaultDate: '2019-04-12',
+        // defaultDate: '2019-04-12',
         // aspectRatio: 2.35,
         height: 'auto',
         navLinks: true, // can click day/week names to navigate views
@@ -44,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
             failure: function(error) {
                console.log(error);
             }
+        },
+        eventDataTransform: function(info){
+            info.editable = false;
         },
         eventRender: function(event, element){
             var e = document.createElement('div');

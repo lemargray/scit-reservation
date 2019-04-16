@@ -58,7 +58,7 @@ class ComputerReservationsController extends Controller
         $this->validate($request, [
 			'start_date' => 'required',
 			'end_date' => 'required',
-			'description' => 'required',
+			// 'description' => 'required',
 			'computer_id' => 'required|exists:computers,id',
 		]);
         $requestData = $request->all();
@@ -161,6 +161,7 @@ class ComputerReservationsController extends Controller
                 'id' => $item->id,
                 "constraint" => "businessHours",
                 "editable" => false,
+                "classNames"=> ['fc-event-red']
             ];
         });
         
@@ -169,11 +170,12 @@ class ComputerReservationsController extends Controller
             return[
                 'start' => $item->start_date,
                 'end' => $item->end_date,
-                'title' => $item->reservedBy->name,
+                'title' => $item->reservedBy->name . " (" . $item->reservedBy->username . ")",
                 'description' => $item->description,
                 'id' => $item->id,
                 "constraint" => "businessHours",
-                "editable" => $item->end_date < date('Y-m-d')?false:true,
+                "editable" => $item->end_date < date('Y-m-d')?false:($item->reserved_by == auth()->user()->id?true:false),
+                "classNames"=> $item->reserved_by == auth()->user()->id?['fc-event-green']:['fc-event-blue']
             ];
         });
         

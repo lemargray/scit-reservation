@@ -33,7 +33,7 @@
                     @foreach($computerhours as $item)
                         <tr>
                             <!-- <td>{{ $loop->iteration }}</td> -->
-                            <td>{{ $item->duration }}</td>
+                            <td>{{ $item->duration }} hrs</td>
                             <td>
                                 <a href="{{ url('/computer-hours/' . $item->id) }}" title="View ComputerHour"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                 <a href="{{ url('/computer-hours/' . $item->id . '/edit') }}" title="Edit ComputerHour"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</button></a>

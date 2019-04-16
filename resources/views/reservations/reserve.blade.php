@@ -16,9 +16,9 @@
     <strong>Draggable Events</strong>
   </p>
   @foreach($hours as $hour)
-    <div class='fc-event' title="Drag and drop on calendar" style="color:#000; cursor:pointer;padding:5px;margin-bottom:5px;" 
+    <div class='fc-event fc-event-green' title="Drag and drop on calendar" style="color:#000; cursor:pointer;padding:5px;margin-bottom:5px;" 
     data-event='{ "title": "{{auth()->user()->name}}", "duration": "{{gmdate("H:i:s", floor($hour->duration * 3600))}}", 
-    "description": "{{$hour->duration}}hrs",
+    
     "computer_id": "{{$computer->id}}",
       "constraint": "businessHours" }'>
         <div id="title">{{auth()->user()->name}}</div>

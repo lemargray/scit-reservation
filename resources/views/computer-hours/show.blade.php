@@ -23,7 +23,7 @@
                             <!-- <th>ID</th> -->
                             <td>{{ $computerhour->id }}</td>
                         </tr>
-                        <tr><th> Duration </th><td> {{ $computerhour->duration }} </td></tr>
+                        <tr><th> Duration </th><td> {{ $computerhour->duration }} hrs</td></tr>
                     </tbody>
                 </table>
             </div>

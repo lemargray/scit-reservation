@@ -71,7 +71,6 @@ class LabReservationsController extends Controller
 			'reservable_type' => 'required'
 		]);
         $requestData = $request->all();
-        return $requestData;
         $requestData['reserved_by'] = auth()->user()->id;
         $requestData['reserved_at'] = date('Y-m-d');
         $requestData['status_id'] = 1;
