@@ -2,17 +2,17 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => config('app.url')])
-            <img src="{{asset('images/utech/icon.png')}}">
+            <img width="100px" src="{{asset('images/utech/icon.png')}}">
             <br>
-            <h1>{{config('app.name')}}</h1>
+            <h1 style="text-align:center">{{config('app.name')}}</h1>
         @endcomponent
     @endslot
 {{-- Body --}}
     Hello {{ $reservation->reservedBy->name }},
 
-    <p>Your request to reserve {{$reservation->computer->name}} for the period: {{$reservation->start_date}} - {{$reservation->end_date}}
-        Has been confirmed.
-    </p>
+    Your request to reserve {{$reservation->computer->name}} for the period: {{$reservation->start_date}} - {{$reservation->end_date}}
+    Has been confirmed.
+    
 {{-- Subcopy --}}
     @isset($subcopy)
         @slot('subcopy')
@@ -24,7 +24,7 @@
 {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
-            © {{ date('Y') }} {{ config('app.name') }}. Super FOOTER!
+            Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
         @endcomponent
     @endslot
 @endcomponent
