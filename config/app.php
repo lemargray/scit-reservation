@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => 'http://206.189.231.250/scit-reservation/public/index.php',
 
     'asset_url' => env('ASSET_URL', null),
 
