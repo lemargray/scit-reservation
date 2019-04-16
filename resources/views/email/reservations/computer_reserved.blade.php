@@ -10,8 +10,7 @@
 {{-- Body --}}
     Hello {{ $reservation->reservedBy->name }},
 
-    Your request to reserve {{$reservation->computer->name}} for the period: {{$reservation->start_date}} - {{$reservation->end_date}}
-    Has been confirmed.
+    Your request to reserve {{$reservation->computer->name}} for the period: {{date("'l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("'l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} Has been confirmed.
     
 {{-- Subcopy --}}
     @isset($subcopy)
