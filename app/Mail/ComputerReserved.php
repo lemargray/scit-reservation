@@ -30,6 +30,6 @@ class ComputerReserved extends Mailable
      */
     public function build()
     {
-        return $this->view('email.reservations.computer_reserved');
+        return $this->markdown('email.reservations.computer_reserved');
     }
 }
