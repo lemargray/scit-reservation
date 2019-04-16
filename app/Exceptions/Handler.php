@@ -46,6 +46,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect()
+                   ->back()
+                   ->with('error', 'The form has expired due to inactivity. Please try again');
+        }
+
         return parent::render($request, $exception);
     }
 }
