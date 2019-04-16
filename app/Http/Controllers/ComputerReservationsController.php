@@ -66,10 +66,14 @@ class ComputerReservationsController extends Controller
         $requestData['reserved_at'] = date('Y-m-d');
         $requestData['status_id'] = 1;
 
-        $id = ComputerReservation::create($requestData)->id;
+        $reservation = ComputerReservation::create($requestData);
+
+        $reserved = \App\Mail\ComputerReserved($reservation);
+
+        Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
-            return $id;
+            return $reservation->id;
         }
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation added!');
     }
