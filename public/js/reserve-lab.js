@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: '',///*'dayGridMonth,*/'timeGridWeek,timeGridDay'
         },        
-        minTime:'8:00',
-        maxTime: '21:00',
+        minTime: $('#opening_time').val(),
+        maxTime: $('#closing_time').val(),
         eventOverlap: false,
         // defaultDate: '2019-04-12',
         // aspectRatio: 2.35,
@@ -125,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // days of week. an array of zero-based day of week integers (0=Sunday)
             daysOfWeek: [ 1, 2, 3, 4, 5, 6], // Monday - Thursday
             
-            startTime: '08:00', // a start time (10am in this example)
-            endTime: '21:00', // an end time (6pm in this example)
+            startTime: $('#opening_time').val(), // a start time (10am in this example)
+            endTime: $('#closing_time').val(), // an end time (6pm in this example)
         },
         // selectMirror: true,  
         select: function(arg) {
