@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => 'smtp',
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => 'smtp.gmail.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => 587,
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'scitlabreservation@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'SCIT Lab Reservation'),
+        'address' => 'scitlabreservation@gmail.com',
+        'name' => 'SCIT Lab Reservation',
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => 'tls',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,9 +84,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', "scitlabreservation@gmail.com"),
+    'username' => "scitlabreservation@gmail.com",
 
-    'password' => env('MAIL_PASSWORD', 'Pa$$word01'),
+    'password' => 'Pa$$word01',
 
     /*
     |--------------------------------------------------------------------------
