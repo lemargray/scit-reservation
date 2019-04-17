@@ -45,20 +45,20 @@
                                 <!-- Body content -->
                                 <tr>
                                     <td class="content-cell">
-                                        Hello {{ $reservation->reservedBy->name }},
+                                        <p>Hello {{ $reservation->reservedBy->name }},</p> <br><br>
 
                                        <p>
                                             Your request to reserve {{$reservation->computer->name}} in {{$reservation->computer->lab->name}} 
-                                            for the period: 
-                                            {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
-                                            Has been confirmed.                
+                                            for the <b>period: 
+                                            {{date("l jS \\of F Y h:i A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i A", strtotime($reservation->end_date))}} 
+                                            </b>Has been confirmed.                
                                         </p>
                                         <br>    
                                         <a href="{{ route('reserve.computer', $reservation->computer->id) }}" class="button button-primary" target="_blank">
                                             View Computer Schedule
                                         </a>
 
-                                        <br>
+                                        <br><br><br>
                                         
                                         <p>
                                             regards,<br><br>
