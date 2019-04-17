@@ -14,7 +14,7 @@
     @slot('subcopy')
         @component('mail::subcopy')
             <p>
-                Your request to reserve {{$reservation->computer->name}} in {{$reservation->lab->name}} 
+                Your request to reserve {{$reservation->computer->name}} in {{$reservation->computer->lab->name}} 
                 for the period: 
                 {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
                 Has been confirmed.                
