@@ -72,7 +72,7 @@ class ComputerReservationsController extends Controller
 
         $reserved = new \App\Mail\ComputerReserved($reservation);
 
-        // Mail::to($request->user())->send($reserved);
+        Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
             return $reservation->id;
