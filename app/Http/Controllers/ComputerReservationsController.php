@@ -72,7 +72,7 @@ class ComputerReservationsController extends Controller
 
         $reserved = new \App\Mail\ComputerReserved($reservation);
 
-        Mail::to($request->user())->send($reserved);
+        // Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
             return $reservation->id;
@@ -164,7 +164,7 @@ class ComputerReservationsController extends Controller
                 'end' => $item->end_date,
                 'title' => $item->reservable->name,
                 'description' => $item->reservable->description,
-                'id' => $item->id,
+                // 'id' => $item->id,
                 "constraint" => "businessHours",
                 "editable" => false,
                 "classNames"=> ['fc-event-red']
@@ -185,6 +185,6 @@ class ComputerReservationsController extends Controller
             ];
         });
         
-        return $keyed->merge($keyed_2);
+        return array_merge($keyed->all(), $keyed_2->all());
     }
 }
