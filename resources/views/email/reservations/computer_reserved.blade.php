@@ -10,16 +10,26 @@
 {{-- Body --}}
     Hello {{ $reservation->reservedBy->name }},
 
-    Your request to reserve {{$reservation->computer->name}} for the period: {{date("'l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("'l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} Has been confirmed.
-    
 {{-- Subcopy --}}
-    @isset($subcopy)
-        @slot('subcopy')
-            @component('mail::subcopy')
-                {{ $subcopy }}
+    @slot('subcopy')
+        @component('mail::subcopy')
+            <p>
+                Your request to reserve {{$reservation->computer->name}} in {{$reservation->lab->name}} 
+                for the period: 
+                {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
+                Has been confirmed.                
+            </p>
+                
+            @component('mail::button', ['url' => route('reserve.computer', $reservation->computer->id)])
+                View Computer Schedule
             @endcomponent
-        @endslot
-    @endisset
+        @endcomponent
+    @endslot
+
+    regards,
+
+    SCIT LAB
+
 {{-- Footer --}}
     @slot('footer')
         @component('mail::footer')
