@@ -1,42 +1,79 @@
-@component('mail::layout')
-    {{-- Header --}}
-    @slot('header')
-        @component('mail::header', ['url' => config('app.url')])
-            <img width="100px" src="{{asset('images/utech/icon.png')}}">
-            <br>
-            <h1 style="text-align:center">{{config('app.name')}}</h1>
-        @endcomponent
-    @endslot
-{{-- Body --}}
-    Hello {{ $reservation->reservedBy->name }},
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <style>
+        @media only screen and (max-width: 600px) {
+            .inner-body {
+                width: 100% !important;
+            }
 
-{{-- Subcopy --}}
-    @slot('subcopy')
-        @component('mail::subcopy')
-            <p>
-                Your request to reserve {{$reservation->computer->name}} in {{$reservation->computer->lab->name}} 
-                for the period: 
-                {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
-                Has been confirmed.                
-            </p>
-            <br>    
-            <a href="{{ route('reserve.computer', $reservation->computer->id) }}" class="button button-primary" target="_blank">
-                View Computer Schedule
-            </a>
-            
-            <br>
-            
-            <p>
-            regards,<br><br>
-            SCIT LAB
-            </p>
-        @endcomponent
-    @endslot
+            .footer {
+                width: 100% !important;
+            }
+        }
 
-{{-- Footer --}}
-    @slot('footer')
-        @component('mail::footer')
-            Copyright © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
-        @endcomponent
-    @endslot
-@endcomponent
+        @media only screen and (max-width: 500px) {
+            .button {
+                width: 100% !important;
+            }
+        }
+    </style>
+
+    <table class="wrapper" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table class="content" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="header">
+                        <a href="{{ config('app.url') }}">
+                            <img width="100px" src="{{asset('images/utech/icon.png')}}">
+                            <br>
+                            <h1 style="text-align:center">{{config('app.name')}}</h1>
+                        </a>
+                    </td>
+                </tr>
+                
+
+                    <!-- Email Body -->
+                    <tr>
+                        <td class="body" width="100%" cellpadding="0" cellspacing="0">
+                            <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0">
+                                <!-- Body content -->
+                                <tr>
+                                    <td class="content-cell">
+                                        Hello {{ $reservation->reservedBy->name }},
+
+                                       <p>
+                                            Your request to reserve {{$reservation->computer->name}} in {{$reservation->computer->lab->name}} 
+                                            for the period: 
+                                            {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
+                                            Has been confirmed.                
+                                        </p>
+                                        <br>    
+                                        <a href="{{ route('reserve.computer', $reservation->computer->id) }}" class="button button-primary" target="_blank">
+                                            View Computer Schedule
+                                        </a>
+
+                                        <br>
+                                        
+                                        <p>
+                                            regards,<br><br>
+                                            SCIT LAB
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    {{ $footer ?? '' }}
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
