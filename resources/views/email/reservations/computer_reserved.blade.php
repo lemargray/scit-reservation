@@ -19,16 +19,19 @@
                 {{date("l jS \\of F Y h:i:s A", strtotime($reservation->start_date))}} - {{date("l jS \\of F Y h:i:s A", strtotime($reservation->end_date))}} 
                 Has been confirmed.                
             </p>
-                
-            @component('mail::button', ['url' => route('reserve.computer', $reservation->computer->id)])
+            <br>    
+            <a href="{{ route('reserve.computer', $reservation->computer->id) }}" class="button button-primary" target="_blank">
                 View Computer Schedule
-            @endcomponent
+            </a>
+            
+            <br>
+            
+            <p>
+            regards,<br><br>
+            SCIT LAB
+            </p>
         @endcomponent
     @endslot
-
-    regards,
-
-    SCIT LAB
 
 {{-- Footer --}}
     @slot('footer')
