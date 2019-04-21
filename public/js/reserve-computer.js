@@ -58,20 +58,27 @@ var addReservation = function (info) {
 
     $.post('../../computer-reservations', addData)
     .done(function( data ) {
+        info.event.remove();
         iziToast.success({
             title: 'OK',
             position: 'topCenter',
             message: 'computer successfully reserve for ' + info.event.title,
         });
-        console.log(data);
-        info.event.setExtendedProp('id', data);
-        info.event.setProp('editable', true);
-        info.event.setProp('classNames', ["fc-event-green"]);
-        console.log("id: "+info.event.extendedProps.id);
+        // console.log(data);
+        // info.event.setProp('id', data);
+        // info.event.setExtendedProp('id', data);
+        // info.event.setProp('editable', true);
+        // info.event.setProp('classNames', ["fc-event-green"]);
+        // console.log("id: "+info.event.extendedProps.id);
+        
     })
     .fail(function(xhr, status, error) {
         console.log(xhr);
         info.event.remove();
+
+        console.log(calendar);
+        // calendar.render();
+        // eventSources[0].refetch();
 
         iziToast.error({
             title: 'FAILED!',
@@ -112,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // aspectRatio: 2.35,
         height: 'auto',
         navLinks: true, // can click day/week names to navigate views
-        selectable: true,
+        selectable: false,
         hiddenDays: [0],
         allDaySlot: false,
         defaultView: $(window).width() < 765 ? 'timeGrid':'timeGridWeek',
@@ -216,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 return;
             }
-           addReservation(info);    
-           console.log(calendar.getEventById(7));
+           addReservation(info); 
+           console.log(calendar);
         //    console.log(calendar.getEventById('new').id);
         },
         // loading: function(bool) {
@@ -225,4 +232,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // }
     });
     calendar.render();
+    
+    var socket = io('http://127.0.0.1:8080');
+
+    socket.on('tester', function(data) {
+        calendar.refetchEvents();
+    });
+
+    // setInterval(function(){ 
+        
+    //     // calendar.destroy();
+    //     calendar.refetchEvents();
+    // },  15* 1000);
   });

@@ -68,16 +68,46 @@ class ComputerReservationsController extends Controller
         $requestData['reserved_at'] = date('Y-m-d');
         $requestData['status_id'] = 1;
 
+        // // return $requestData['start_date'];
+
+        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date']) ){
+            return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
+        }
+
         $reservation = ComputerReservation::create($requestData);
 
-        $reserved = new \App\Mail\ComputerReserved($reservation);
+        broadcast(new \App\Events\Reservation());
 
-        Mail::to($request->user())->send($reserved);
+        // $reserved = new \App\Mail\ComputerReserved($reservation);
+
+        // Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
             return $reservation->id;
         }
         return redirect('computer-reservations')->with('flash_message', 'Computer Reservation added!');
+    }
+
+    public function alreadyExist($start_date, $end_date, $id = null)
+    {
+        $query = ComputerReservation::where('start_date', '<=', $start_date)
+                ->where('end_date', '>', $start_date)
+                ->orWhere([
+                    ['start_date', '<', $end_date],
+                    ['end_date', '>=', $end_date]
+                ]);
+
+        if($id !== null){
+            $query->where('id', '<>', $id);
+        }
+
+        $alreadyExist = $query->get();
+
+        if($alreadyExist->isNotEmpty()){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -135,9 +165,15 @@ class ComputerReservationsController extends Controller
         if($start->diffInHours($end) > 6){
             return abort(403, "Exceeding limit.");
         }
+
+        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date']) ){
+            return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
+        }
         
         $computerreservation = ComputerReservation::findOrFail($id);
         $computerreservation->update($requestData);
+
+        broadcast(new \App\Events\Reservation());
 
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation updated!');
     }

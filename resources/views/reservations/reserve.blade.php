@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
   <script src='{{asset("/js/reserve-computer.js")}}'></script>
 @endsection
 
