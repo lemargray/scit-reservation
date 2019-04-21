@@ -166,7 +166,7 @@ class ComputerReservationsController extends Controller
             return abort(403, "Exceeding limit.");
         }
 
-        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date']) ){
+        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $id) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
         }
         
