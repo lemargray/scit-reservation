@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
     
-    var socket = io('http://127.0.0.1:3000');
+    var socket = io(window.location.origin +':3000');
 
     socket.on('tester', function(data) {
         calendar.refetchEvents();
