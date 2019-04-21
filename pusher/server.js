@@ -18,4 +18,4 @@ redis.on('message', function(channel, message) {
 //     io.emit('tester', "test"); // true
 //   });
 
-server.listen(8080);
+server.listen(3000);
