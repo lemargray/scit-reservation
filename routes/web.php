@@ -51,3 +51,12 @@ Route::middleware('auth')->name('reserve.computer')->get('reserve/computer/{id}'
 Route::resource('computer-hours', 'ComputerHoursController');
 Route::resource('computer-reservations', 'ComputerReservationsController');
 Route::middleware('auth')->name('computer-reservation')->get('/api/computer-reservations/{id}', 'ComputerReservationsController@apiComputerReservations');
+
+Route::get('user/{username}', function($username){
+    $user = \App\User::where('username', $username)->first();
+    $start_date = date("Y-m-d H:m");
+    return \App\ComputerReservation::where('reserved_by', $user->id)
+        ->where('start_date', '<=', $start_date)
+        ->where('end_date', '>=', $start_date)->first();
+    return [0=>["username" => $username]];
+});

@@ -68,19 +68,21 @@ class ComputerReservationsController extends Controller
         $requestData['reserved_at'] = date('Y-m-d');
         $requestData['status_id'] = 1;
 
-        // // return $requestData['start_date'];
-
         if( $this->alreadyExist($requestData['start_date'], $requestData['end_date']) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
+        }
+
+        if($this->maxTimeExceeded($requestData['start_date'], $requestData['end_date'])){
+            return abort(403, "Exceeding limit.");
         }
 
         $reservation = ComputerReservation::create($requestData);
 
         broadcast(new \App\Events\Reservation());
 
-        // $reserved = new \App\Mail\ComputerReserved($reservation);
+        $reserved = new \App\Mail\ComputerReserved($reservation);
 
-        // Mail::to($request->user())->send($reserved);
+        Mail::to($request->user())->send($reserved);
             
         if($request->ajax()){
             return $reservation->id;
@@ -91,19 +93,30 @@ class ComputerReservationsController extends Controller
     public function alreadyExist($start_date, $end_date, $id = null)
     {
         $query = ComputerReservation::where('start_date', '<=', $start_date)
-                ->where('end_date', '>', $start_date)
-                ->orWhere([
-                    ['start_date', '<', $end_date],
-                    ['end_date', '>=', $end_date]
-                ]);
+                ->where(function($q) use($start_date, $end_date){
+                    $q->where('end_date', '>', $start_date)
+                    ->orWhere([
+                        ['start_date', '<', $end_date],
+                        ['end_date', '>=', $end_date]
+                    ]);
+                });
 
         if($id !== null){
-            $query->where('id', '<>', $id);
+            $query->where('id', '!=', $id);
         }
 
-        $alreadyExist = $query->get();
+        $computerAlreadyExist = $query->get();
 
-        if($alreadyExist->isNotEmpty()){
+        $labAlreadyExist = \App\LabReservation::where('start_date', '<=', $start_date)
+                ->where(function($q) use($start_date, $end_date){
+                    $q->where('end_date', '>', $start_date)
+                    ->orWhere([
+                        ['start_date', '<', $end_date],
+                        ['end_date', '>=', $end_date]
+                    ]);
+                })->get();
+
+        if($computerAlreadyExist->isNotEmpty() && $labAlreadyExist->isNotEmpty()){
             return true;
         }
 
@@ -138,6 +151,18 @@ class ComputerReservationsController extends Controller
         return view('computer-reservations.edit', compact('computerreservation'));
     }
 
+    public function maxTimeExceeded($start_date, $end_date)
+    {
+        $start = new \Carbon\Carbon($start_date);
+        $end = new \Carbon\Carbon($end_date);
+        //fetch from settings table
+        if($start->diffInHours($end) > 6){
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -151,21 +176,14 @@ class ComputerReservationsController extends Controller
         $this->validate($request, [
 			'start_date' => 'required',
 			'end_date' => 'required',
-			// 'description' => 'required',
-			// 'computer_id' => 'required|exists:computers,id',
-			// 'status_id' => 'required|exists:status,id',
-			// 'reserved_by' => 'required|exists:users,id',
-			// 'reserved_at' => 'required'
-		]);
+        ]);
+        
         $requestData = $request->all();
         
-        $start = new \Carbon\Carbon($requestData['start_date']);
-        $end = new \Carbon\Carbon($requestData['end_date']);
-
-        if($start->diffInHours($end) > 6){
+        if($this->maxTimeExceeded($requestData['start_date'], $requestData['end_date'])){
             return abort(403, "Exceeding limit.");
         }
-
+        
         if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $id) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
         }
@@ -193,7 +211,13 @@ class ComputerReservationsController extends Controller
     }
 
     public function apiComputerReservations($id){
-        $reservations = \App\LabReservation::where('lab_id', $id)->get();
+        $start_date = date('Y-m-d H:i:s', strtotime(request()->query('start')));
+        $end_date = date('Y-m-d H:i:s', strtotime(request()->query('end')));
+        $reservations = \App\LabReservation::where('lab_id', $id)
+            ->where('start_date', '>=', $start_date)
+            ->where('start_date', '<', $end_date)
+            ->where('end_date', '<=', $end_date)
+            ->get();
         $keyed = $reservations->map(function ($item) {
             return[
                 'start' => $item->start_date,
@@ -207,7 +231,12 @@ class ComputerReservationsController extends Controller
             ];
         });
         
-        $userReservations = \App\ComputerReservation::where('computer_id', $id)->get();
+        $userReservations = \App\ComputerReservation::where('computer_id', $id)
+            ->where('start_date', '>=', $start_date)
+            ->where('start_date', '<', $end_date)
+            ->where('end_date', '<=', $end_date)   
+            ->get();
+
         $keyed_2 = $userReservations->map(function ($item) {
             return[
                 'start' => $item->start_date,

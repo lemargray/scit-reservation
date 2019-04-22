@@ -166,7 +166,14 @@ class LabReservationsController extends Controller
     }
 
     public function apiLabReservations($id){
-        $reservations = \App\LabReservation::where('lab_id', $id)->get();
+        $start_date = date('Y-m-d H:i:s', strtotime(request()->query('start')));
+        $end_date = date('Y-m-d H:i:s', strtotime(request()->query('end')));
+        $reservations = \App\LabReservation::where('lab_id', $id)
+            ->where('start_date', '>=', $start_date)
+            ->where('start_date', '<', $end_date)
+            ->where('end_date', '<=', $end_date)
+            ->get();
+            
         $keyed = $reservations->map(function ($item) {
             return[
                 'start' => $item->start_date,
