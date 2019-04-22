@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: false,
         eventLimit: true, // allow "more" link when too many events
         events: {
-            url: '../../api/reservations/'+$('#lab-id').val(),
+            url: '/api/reservations/'+$('#lab-id').val(),
             failure: function(error) {
                console.log(error);
             }

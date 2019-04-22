@@ -23,7 +23,7 @@ var updateReservation = function (info, whichObject) {
             console.log(updatedData);
             if (result.value) {
                 var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                $.post('../../computer-reservations/'+ id, updatedData)
+                $.post('/computer-reservations/'+ id, updatedData)
                 .done(function( data ) {
                     iziToast.success({
                         title: 'OK',
@@ -56,7 +56,7 @@ var addReservation = function (info) {
         computer_id: info.event.extendedProps.computer_id,
     };
 
-    $.post('../../computer-reservations', addData)
+    $.post('/computer-reservations', addData)
     .done(function( data ) {
         info.event.remove();
         iziToast.success({
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         events: {
-            url: '../../api/computer-reservations/'+$('#lab-id').val(),
+            url: '/api/computer-reservations/'+$('#lab-id').val(),
             failure: function(error) {
                console.log(error);
             }
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log(updatedData);
                     if (result.value) {
                         var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                        $.post('../../computer-reservations/'+ id, updatedData)
+                        $.post('/computer-reservations/'+ id, updatedData)
                         .done(function( data ) {                            
                             info.event.remove();
 

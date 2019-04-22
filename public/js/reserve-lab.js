@@ -23,7 +23,7 @@ var updateReservation = function (info, whichObject) {
             console.log(updatedData);
             if (result.value) {
                 var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                $.post('../../lab-reservations/'+ id, updatedData)
+                $.post('/lab-reservations/'+ id, updatedData)
                 .done(function( data ) {
                     iziToast.success({
                         title: 'OK',
@@ -57,7 +57,7 @@ var addReservation = function (info) {
         lab_id: info.event.extendedProps.lab_id,
     };
 
-    $.post('../../lab-reservations', addData)
+    $.post('/lab-reservations', addData)
     .done(function( data ) {
         iziToast.success({
             title: 'OK',
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         events: {
-            url: '../../api/reservations/'+$('#lab-id').val(),
+            url: '/api/reservations/'+$('#lab-id').val(),
             failure: function(error) {
                console.log(error);
             }
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log(updatedData);
                     if (result.value) {
                         var id = info.event.id == ''?info.event.extendedProps.id:info.event.id;
-                        $.post('../../lab-reservations/'+ id, updatedData)
+                        $.post('/lab-reservations/'+ id, updatedData)
                         .done(function( data ) {                            
                             info.event.remove();
 
