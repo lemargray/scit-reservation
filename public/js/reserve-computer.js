@@ -58,7 +58,7 @@ var addReservation = function (info) {
 
     $.post('/computer-reservations', addData)
     .done(function( data ) {
-        info.event.remove();
+        // info.event.remove();
         iziToast.success({
             title: 'OK',
             position: 'topCenter',
@@ -74,7 +74,7 @@ var addReservation = function (info) {
     })
     .fail(function(xhr, status, error) {
         console.log(xhr);
-        info.event.remove();
+        // info.event.remove();
 
         console.log(calendar);
         // calendar.render();
@@ -214,8 +214,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventReceive: function(info){
             // alert(moment().utcOffset(60));
+            info.event.remove();
             if(moment(info.event.start).add(1, "hour").utcOffset(-5).isBefore(moment().utcOffset(-5))){
-                info.event.remove();
+               
                 iziToast.error({
                     title: 'FAILED!',
                     position: 'topCenter',
