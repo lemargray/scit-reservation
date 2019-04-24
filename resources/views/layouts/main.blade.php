@@ -8,8 +8,8 @@
   <title>SCIT Reservation</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{{asset('vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
-  <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
-  <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}">
+  <!-- <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
+  <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}"> -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
@@ -20,7 +20,7 @@
   <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
   
   <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
-  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>
+
   <link href='{{asset("/packages/core/main.min.css")}}' rel='stylesheet' />
   <link href='{{asset("/packages/daygrid/main.min.css")}}' rel='stylesheet' />
   <link href='{{asset("/packages/timegrid/main.min.css")}}' rel='stylesheet' />
@@ -31,7 +31,9 @@
   <script src='{{asset("/packages/daygrid/main.min.js")}}'></script>
   <script src='{{asset("/packages/timegrid/main.min.js")}}'></script>
   <script src='{{asset("/packages/list/main.min.js")}}'></script>
-  <!-- <script src='{{asset("/packages/moment/main.js")}}'></script>
+
+  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>  
+<!-- <script src='{{asset("/packages/moment/main.js")}}'></script>
   <script src='{{asset("/packages/moment-timezone/main.js")}}'></script> -->
 
 @yield('scripts')

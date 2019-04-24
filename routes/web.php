@@ -60,3 +60,6 @@ Route::get('user/{username}', function($username){
         ->where('end_date', '>=', $start_date)->first();
     return [0=>["username" => $username]];
 });
+
+Route::middleware('auth')->name('computers-available')->get('/available/computers', 'ComputerReservationsController@search');
+

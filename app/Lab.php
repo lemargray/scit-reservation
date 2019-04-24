@@ -40,5 +40,10 @@ class Lab extends Model
     {
         return $this->hasMany('App\Computer');
     }
+
+    public function labReservations()
+    {
+        return $this->hasMany('App\LabReservation');
+    }
     
 }
