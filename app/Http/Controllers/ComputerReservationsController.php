@@ -9,6 +9,7 @@ use App\ComputerReservation;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\MessageBag;
 
 class ComputerReservationsController extends Controller
 {
@@ -78,49 +79,16 @@ class ComputerReservationsController extends Controller
 
         $reservation = ComputerReservation::create($requestData);
 
-        broadcast(new \App\Events\Reservation());
-
         $reserved = new \App\Mail\ComputerReserved($reservation);
 
         Mail::to($request->user())->send($reserved);
+
+        broadcast(new \App\Events\Reservation());
             
         if($request->ajax()){
             return $reservation->id;
         }
         return redirect('computer-reservations')->with('flash_message', 'Computer Reservation added!');
-    }
-
-    public function alreadyExist($start_date, $end_date, $id = null)
-    {
-        $query = ComputerReservation::where('start_date', '<=', $start_date)
-                ->where(function($q) use($start_date, $end_date){
-                    $q->where('end_date', '>', $start_date)
-                    ->orWhere([
-                        ['start_date', '<', $end_date],
-                        ['end_date', '>=', $end_date]
-                    ]);
-                });
-
-        if($id !== null){
-            $query->where('id', '!=', $id);
-        }
-
-        $computerAlreadyExist = $query->get();
-
-        $labAlreadyExist = \App\LabReservation::where('start_date', '<=', $start_date)
-                ->where(function($q) use($start_date, $end_date){
-                    $q->where('end_date', '>', $start_date)
-                    ->orWhere([
-                        ['start_date', '<', $end_date],
-                        ['end_date', '>=', $end_date]
-                    ]);
-                })->get();
-
-        if($computerAlreadyExist->isNotEmpty() && $labAlreadyExist->isNotEmpty()){
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -151,18 +119,6 @@ class ComputerReservationsController extends Controller
         return view('computer-reservations.edit', compact('computerreservation'));
     }
 
-    public function maxTimeExceeded($start_date, $end_date)
-    {
-        $start = new \Carbon\Carbon($start_date);
-        $end = new \Carbon\Carbon($end_date);
-        //fetch from settings table
-        if($start->diffInHours($end) > 6){
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -191,7 +147,13 @@ class ComputerReservationsController extends Controller
         $computerreservation = ComputerReservation::findOrFail($id);
         $computerreservation->update($requestData);
 
+        // mail to
+
         broadcast(new \App\Events\Reservation());
+
+        if($request->ajax()){
+            return "Reservation reschedule successfully.";
+        }
 
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation updated!');
     }
@@ -205,7 +167,16 @@ class ComputerReservationsController extends Controller
      */
     public function destroy($id)
     {
-        ComputerReservation::destroy($id);
+        $reservation = ComputerReservation::findOrFail($id);
+
+        // Check if the person login into the computer if yes do not cancel
+        // user/{username} should set a flag on the reservation record to 1
+        if($reservation->end_date <= date('Y-m-d H:i:s')){
+            return abort(403, "Cannot cancel a reservation that already finished");
+        }
+
+        $reservation->status_id = \App\Status::where('name', 'Cancel')->first()->id;
+        $reservation->save();
 
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation deleted!');
     }
@@ -245,11 +216,84 @@ class ComputerReservationsController extends Controller
                 'description' => $item->description,
                 'id' => $item->id,
                 "constraint" => "businessHours",
-                "editable" => $item->end_date < date('Y-m-d')?false:($item->reserved_by == auth()->user()->id?true:false),
+                "editable" => $item->end_date < date('Y-m-d H:i:s')?false:($item->reserved_by == auth()->user()->id?true:false),
                 "classNames"=> $item->reserved_by == auth()->user()->id?['fc-event-green']:['fc-event-blue']
             ];
         });
         
         return array_merge($keyed->all(), $keyed_2->all());
+    }
+
+    public function alreadyExist($start_date, $end_date, $id = null)
+    {
+        $query = ComputerReservation::where('start_date', '<=', $start_date)
+                ->where(function($q) use($start_date, $end_date){
+                    $q->where('end_date', '>', $start_date)
+                    ->orWhere([
+                        ['start_date', '<', $end_date],
+                        ['end_date', '>=', $end_date]
+                    ]);
+                });
+
+        if($id !== null){
+            $query->where('id', '!=', $id);
+        }
+
+        $computerAlreadyExist = $query->get();
+
+        $labAlreadyExist = \App\LabReservation::where('start_date', '<=', $start_date)
+                ->where(function($q) use($start_date, $end_date){
+                    $q->where('end_date', '>', $start_date)
+                    ->orWhere([
+                        ['start_date', '<', $end_date],
+                        ['end_date', '>=', $end_date]
+                    ]);
+                })->get();
+
+        if($computerAlreadyExist->isNotEmpty() && $labAlreadyExist->isNotEmpty()){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function search(Request $request)
+    {
+        $start_time = $request->date.' '.date("H:i:s", strtotime($request->start_time));
+        $end_time = $request->date.' '.date("H:i:s", strtotime($request->end_time));
+        $computers = \App\Computer::whereHas("lab.labReservations", function($q) use($start_time, $end_time){
+                $q->where('start_date', '>=', $start_time)
+                    ->where([
+                        ['end_date', '<=', $end_time]
+                    ]
+                );
+            })->orWhereHas("computerReservations", function($q) use($start_time, $end_time){
+                $q->where('start_date', '>=', $start_time)
+                ->where([
+                    ['end_date', '<=', $end_time]
+                ]);
+            })->get()->map(function($item){
+                return $item->id;
+            });
+
+        $labs = \App\Lab::with(['computers' => function($q) use($computers){
+            $q->whereNotIn('computers.id', $computers);
+        }])->get();
+
+        $request->flash();
+        
+        return view("reservations.create")->with("labs", $labs)->with("is_search", true);
+    }
+
+    public function maxTimeExceeded($start_date, $end_date)
+    {
+        $start = new \Carbon\Carbon($start_date);
+        $end = new \Carbon\Carbon($end_date);
+        //fetch from settings table
+        if($start->diffInHours($end) > 6){
+            return true;
+        }
+
+        return false;
     }
 }

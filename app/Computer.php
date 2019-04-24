@@ -35,5 +35,10 @@ class Computer extends Model
     {
         return $this->belongsTo('App\Status');
     }
+
+    public function computerReservations()
+    {
+        return $this->hasMany('App\ComputerReservation');
+    }
     
 }

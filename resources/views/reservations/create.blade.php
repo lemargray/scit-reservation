@@ -13,6 +13,8 @@
 </style>
 @endsection
 
+
+
 @section('content')
     <!-- <div class="alert alert-success">
         Not yet implemented.
@@ -20,6 +22,30 @@
 
     <h3>Reserve a computer</h3>
     <br>
+
+    <div class="card">
+        <div class="card-header">
+            Search for available computers
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Enter the date, time and lab you want to reserve a computer</h5>
+            <form action="{{route('computers-available')}}">
+                <div class="form-group">
+                    <label for="start_time">Start time</label>
+                    <input type="text" value="{{old('start_time')}}" required class="form-control datetimepicker-input" name="start_time" id="start_time" data-toggle="datetimepicker" data-target="#start_time">
+                </div>
+                <div class="form-group">
+                    <label for="end_time">end time</label>
+                    <input type="text" value="{{old('end_time')}}" required class="form-control datetimepicker-input" name="end_time" id="end_time"  data-toggle="datetimepicker" data-target="#end_time">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="text" value="{{old('date')}}" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
+                </div>
+                <button class="btn btn-info">Search</button>
+            </form>
+        </div>
+    </div>
 
     <div class="accordion" id="accordionExample">
     @foreach($labs as $lab)
@@ -32,7 +58,7 @@
                 </h2>
             </div>
 
-            <div id="lab-{{$lab->id}}" class="collapse" aria-labelledby="lab-heading-{{$lab->id}}"" data-parent="#accordionExample">
+            <div id="lab-{{$lab->id}}" class="collapse" aria-labelledby="lab-heading-{{$lab->id}}" data-parent="#accordionExample">
                 <div class="card-body">
                     <h5>Computers</h5>
                     <div class="table-responsive">
@@ -59,4 +85,17 @@
         </div>
     @endforeach
     </div>
+    <script type="text/javascript">
+    $(function () {
+        $('#date').datetimepicker({format: "L", useCurrent: true});
+        $('#start_time').datetimepicker({format: "LT"});
+        $('#end_time').datetimepicker({format: "LT", useCurrent: false});
+        // $("#start_time").on("change.datetimepicker", function (e) {
+        //     $('#end_time').datetimepicker('minDate', e.date);
+        // });
+        // $("#end_time").on("change.datetimepicker", function (e) {
+        //     $('#start_time').datetimepicker('maxDate', e.date);
+        // });
+    });
+</script>
 @endsection
