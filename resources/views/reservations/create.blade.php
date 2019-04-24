@@ -32,15 +32,15 @@
             <form action="{{route('computers-available')}}">
                 <div class="form-group">
                     <label for="start_time">Start time</label>
-                    <input type="text" value="{{old('start_time')}}" required class="form-control datetimepicker-input" name="start_time" id="start_time" data-toggle="datetimepicker" data-target="#start_time">
+                    <input type="time" value="{{old('start_time')}}" required class="form-control datetimepicker-input" name="start_time" id="start_time" data-toggle="datetimepicker" data-target="#start_time">
                 </div>
                 <div class="form-group">
                     <label for="end_time">end time</label>
-                    <input type="text" value="{{old('end_time')}}" required class="form-control datetimepicker-input" name="end_time" id="end_time"  data-toggle="datetimepicker" data-target="#end_time">
+                    <input type="time" value="{{old('end_time')}}" required class="form-control datetimepicker-input" name="end_time" id="end_time"  data-toggle="datetimepicker" data-target="#end_time">
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="text" value="{{old('date')}}" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
+                    <input type="date" value="{{old('date')}}" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
                 </div>
                 <button class="btn btn-info">Search</button>
             </form>

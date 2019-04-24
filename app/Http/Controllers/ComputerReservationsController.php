@@ -235,14 +235,20 @@ class ComputerReservationsController extends Controller
 
     public function alreadyExist($start_date, $end_date, $id = null)
     {
-        $query = ComputerReservation::where('start_date', '<=', $start_date)
-                ->where(function($q) use($start_date, $end_date){
-                    $q->where('end_date', '>', $start_date)
+        $query = ComputerReservation::where('start_date', '>=', $start_time)
+            ->where([
+                ['end_date', '<=', $end_time]
+            ])
+            ->orWhere(function($q) use($start_time, $end_time){
+                $q->where('start_date', '<=', $start_time)
+                ->where(function($q) use($start_time, $end_time){
+                    $q->where('end_date', '>', $start_time)
                     ->orWhere([
-                        ['start_date', '<', $end_date],
-                        ['end_date', '>=', $end_date]
+                        ['start_date', '<', $end_time],
+                        ['end_date', '>=', $end_time]
                     ]);
-                });
+            });
+        });
 
         if($id !== null){
             $query->where('id', '!=', $id);
@@ -250,14 +256,20 @@ class ComputerReservationsController extends Controller
 
         $computerAlreadyExist = $query->get();
 
-        $labAlreadyExist = \App\LabReservation::where('start_date', '<=', $start_date)
-                ->where(function($q) use($start_date, $end_date){
-                    $q->where('end_date', '>', $start_date)
+        $labAlreadyExist = \App\LabReservation::where('start_date', '>=', $start_time)
+            ->where([
+                ['end_date', '<=', $end_time]
+            ])
+            ->orWhere(function($q) use($start_time, $end_time){
+                $q->where('start_date', '<=', $start_time)
+                ->where(function($q) use($start_time, $end_time){
+                    $q->where('end_date', '>', $start_time)
                     ->orWhere([
-                        ['start_date', '<', $end_date],
-                        ['end_date', '>=', $end_date]
+                        ['start_date', '<', $end_time],
+                        ['end_date', '>=', $end_time]
                     ]);
-                })->get();
+            });
+        })->get();
 
         if($computerAlreadyExist->isNotEmpty() && $labAlreadyExist->isNotEmpty()){
             return true;
@@ -268,26 +280,51 @@ class ComputerReservationsController extends Controller
 
     public function search(Request $request)
     {
-        $start_time = $request->date.' '.date("H:i:s", strtotime($request->start_time));
-        $end_time = $request->date.' '.date("H:i:s", strtotime($request->end_time));
+        $date = date("Y-m-d", strtotime($request->date));
+
+        $start_time = $date.' '.date("H:i:s", strtotime($request->start_time));
+        $end_time = $date.' '.date("H:i:s", strtotime($request->end_time));
         $computers = \App\Computer::whereHas("lab.labReservations", function($q) use($start_time, $end_time){
                 $q->where('start_date', '>=', $start_time)
-                    ->where([
-                        ['end_date', '<=', $end_time]
-                    ]
-                );
+                ->where([
+                    ['end_date', '<=', $end_time]
+                ])
+                ->orWhere(function($q) use($start_time, $end_time){
+                    $q->where('start_date', '<=', $start_time)
+                    ->where(function($q) use($start_time, $end_time){
+                        $q->where('end_date', '>', $start_time)
+                        ->orWhere([
+                            ['start_date', '<', $end_time],
+                            ['end_date', '>=', $end_time]
+                        ]);
+                    });
+                });
             })->orWhereHas("computerReservations", function($q) use($start_time, $end_time){
                 $q->where('start_date', '>=', $start_time)
                 ->where([
                     ['end_date', '<=', $end_time]
-                ]);
+                ])
+                ->orWhere(function($q) use($start_time, $end_time){
+                    $q->where('start_date', '<=', $start_time)
+                    ->where(function($q) use($start_time, $end_time){
+                        $q->where('end_date', '>', $start_time)
+                        ->orWhere([
+                            ['start_date', '<', $end_time],
+                            ['end_date', '>=', $end_time]
+                        ]);
+                    });
+                });                
             })->get()->map(function($item){
                 return $item->id;
             });
 
+        $labs = [];
+        
+        
         $labs = \App\Lab::with(['computers' => function($q) use($computers){
             $q->whereNotIn('computers.id', $computers);
         }])->get();
+        
 
         $request->flash();
         
