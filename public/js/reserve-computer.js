@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: true,
         eventLimit: true, // allow "more" link when too many events
         events: {
-            url: '/api/computer-reservations/'+$('#lab-id').val(),
+            url: '/api/computer-reservations/'+$('#computer-id').val(),
             failure: function(error) {
                console.log(error);
             }

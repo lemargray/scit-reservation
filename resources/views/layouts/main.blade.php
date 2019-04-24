@@ -20,6 +20,7 @@
   <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
   
   <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
+  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>  
 
   <link href='{{asset("/packages/core/main.min.css")}}' rel='stylesheet' />
   <link href='{{asset("/packages/daygrid/main.min.css")}}' rel='stylesheet' />
@@ -32,7 +33,6 @@
   <script src='{{asset("/packages/timegrid/main.min.js")}}'></script>
   <script src='{{asset("/packages/list/main.min.js")}}'></script>
 
-  <script src="{{asset('vendors/js/vendor.bundle.addons.js')}}"></script>  
 <!-- <script src='{{asset("/packages/moment/main.js")}}'></script>
   <script src='{{asset("/packages/moment-timezone/main.js")}}'></script> -->
 
