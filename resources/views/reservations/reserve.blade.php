@@ -9,6 +9,8 @@
 @section('content')
 <input type="hidden" id="lab-id" value="{{$computer->lab->id}}">
 <input type="hidden" id="computer-id" value="{{$computer->id}}">
+<input type="hidden" id="opening_time" value="{{$computer->lab->opening_time}}">
+<input type="hidden" id="closing_time" value="{{$computer->lab->closing_time}}">
 <input type="hidden" id="csrf" value="{{csrf_token()}}">
 
 <h1>Reserve - {{$computer->name}}</h1>

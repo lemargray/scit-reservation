@@ -193,6 +193,10 @@ class ComputerReservationsController extends Controller
 
         broadcast(new \App\Events\Reservation());
 
+        if($request->ajax()){
+            return ["Updated."];
+        }
+
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation updated!');
     }
 
@@ -205,7 +209,12 @@ class ComputerReservationsController extends Controller
      */
     public function destroy($id)
     {
-        ComputerReservation::destroy($id);
+        // ComputerReservation::destroy($id);
+        $reservation = ComputerReservation::findOrFail($id);
+        $reservation->status_id = \App\Status::where('name', 'Cancel')->first()->id;
+        $reservation->save();
+
+        broadcast(new \App\Events\Reservation());
 
         return redirect('computer-reservations')->with('flash_message', 'ComputerReservation deleted!');
     }
@@ -213,10 +222,12 @@ class ComputerReservationsController extends Controller
     public function apiComputerReservations($id){
         $start_date = date('Y-m-d H:i:s', strtotime(request()->query('start')));
         $end_date = date('Y-m-d H:i:s', strtotime(request()->query('end')));
+        $active_status_id = \App\Status::where('name', 'Active')->first()->id;
         $reservations = \App\LabReservation::where('lab_id', $id)
             ->where('start_date', '>=', $start_date)
             ->where('start_date', '<', $end_date)
             ->where('end_date', '<=', $end_date)
+            ->where('status_id', $active_status_id)
             ->get();
         $keyed = $reservations->map(function ($item) {
             return[
@@ -235,6 +246,7 @@ class ComputerReservationsController extends Controller
             ->where('start_date', '>=', $start_date)
             ->where('start_date', '<', $end_date)
             ->where('end_date', '<=', $end_date)   
+            ->where('status_id', $active_status_id)
             ->get();
 
         $keyed_2 = $userReservations->map(function ($item) {

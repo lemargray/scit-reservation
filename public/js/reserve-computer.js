@@ -17,7 +17,8 @@ var updateReservation = function (info, whichObject) {
         html: "You want to reschedule " + str,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, Reschedule!'
+        confirmButtonText: 'Yes, Reschedule!',
+        cancelButtonText: 'Close'
         }).then((result) => {
             var updatedData = {_token: $('#csrf').val(), _method: 'PUT', start_date: moment(info.event.start).format('YYYY-MM-DD HH:mm'), end_date:  moment(info.event.end).format('YYYY-MM-DD HH:mm')};
             console.log(updatedData);
@@ -112,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
             center: 'title',
             right: '',///*'dayGridMonth,*/'timeGridWeek,timeGridDay'
         },        
-        minTime:'8:00',
-        maxTime: '21:00',
+        minTime: $('#opening_time').val(),
+        maxTime:  $('#closing_time').val(),
         eventOverlap: false,
         // defaultDate: '2019-04-12',
         // aspectRatio: 2.35,
@@ -136,8 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // days of week. an array of zero-based day of week integers (0=Sunday)
             daysOfWeek: [ 1, 2, 3, 4, 5, 6], // Monday - Thursday
             
-            startTime: '08:00', // a start time (10am in this example)
-            endTime: '21:00', // an end time (6pm in this example)
+            startTime: $('#opening_time').val(), // a start time (10am in this example)
+            endTime:  $('#closing_time').val(), // an end time (6pm in this example)
         }, 
         editable: true,
         eventLimit: true, // allow "more" link when too many events
@@ -162,7 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "<br>To: "+ moment(info.event.start).format('YYYY-MM-DD HH:mm a') + "<br>will be cancelled.",
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Cancel!'
+                confirmButtonText: 'Yes, Cancel!',
+                cancelButtonText: 'Close'
                 }).then((result) => {
                     var updatedData = {_token: $('#csrf').val(), _method: 'DELETE'};
                     console.log(updatedData);
@@ -233,10 +235,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // }
     });
     calendar.render();
-    
-    var socket = io(window.location.origin +':3000');
+    url = window.location.protocol + "//" + window.location.hostname;
+    var socket = io(url +':3000');
 
     socket.on('tester', function(data) {
+        // alert("updated!!!");
         calendar.refetchEvents();
     });
 
