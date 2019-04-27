@@ -233,7 +233,7 @@ class ComputerReservationsController extends Controller
         return array_merge($keyed->all(), $keyed_2->all());
     }
 
-    public function alreadyExist($start_date, $end_date, $id = null)
+    public function alreadyExist($start_time, $end_time, $id = null)
     {
         $query = ComputerReservation::where('start_date', '>=', $start_time)
             ->where([
