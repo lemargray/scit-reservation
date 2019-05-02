@@ -32,15 +32,15 @@
             <form action="{{route('computers-available')}}">
                 <div class="form-group">
                     <label for="start_time">Start time</label>
-                    <input type="text"  autocomplete="off" value="{{old('start_time')}}" required class="form-control datetimepicker-input" name="start_time" id="start_time" data-toggle="datetimepicker" data-target="#start_time">
+                    <input type="text" readonly="readonly" autocomplete="off" required class="form-control datetimepicker-input" name="start_time" id="start_time" data-toggle="datetimepicker" data-target="#start_time">
                 </div>
                 <div class="form-group">
                     <label for="end_time">end time</label>
-                    <input type="text"  autocomplete="off" value="{{old('end_time')}}" required class="form-control datetimepicker-input" name="end_time" id="end_time"  data-toggle="datetimepicker" data-target="#end_time">
+                    <input type="text" readonly="readonly" autocomplete="off" value="{{old('end_time')}}" required class="form-control datetimepicker-input" name="end_time" id="end_time"  data-toggle="datetimepicker" data-target="#end_time">
                 </div>
                 <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="text" autocomplete="off" value="{{old('date')}}" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
+                    <input type="text" readonly="readonly" autocomplete="off" value="{{old('date')}}" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
                 </div>
                 <button class="btn btn-info">Search</button>
             </form>
@@ -87,14 +87,18 @@
     </div>
     <script type="text/javascript">
     $(function () {
-        $('#date').datetimepicker({format: "L", useCurrent: true});
-        $('#start_time').datetimepicker({format: "LT"});
-        $('#end_time').datetimepicker({format: "LT", useCurrent: false});
+        $('#start_time').datetimepicker({
+            format: "LT", stepping: 30, ignoreReadonly: true,
+            // defaultDate: moment({hour: 16 })
+        });
+        // $('#end_time').datetimepicker({format: "LT", stepping: 30, useCurrent: true, ignoreReadonly: true});
+        
+        // $('#date').datetimepicker({format: "L", ignoreReadonly: true});
         // $("#start_time").on("change.datetimepicker", function (e) {
-        //     $('#end_time').datetimepicker('minDate', e.date);
+        //     $('#end_time').datetimepicker('minDate', e.date.clone().add(30, 'minutes'));
         // });
         // $("#end_time").on("change.datetimepicker", function (e) {
-        //     $('#start_time').datetimepicker('maxDate', e.date);
+        //     // $('#start_time').datetimepicker('maxDate', e.date);
         // });
     });
 </script>

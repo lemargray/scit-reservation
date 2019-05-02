@@ -165,7 +165,7 @@ class ComputerReservationsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $reservation = ComputerReservation::findOrFail($id);
 
@@ -176,8 +176,11 @@ class ComputerReservationsController extends Controller
         }
 
         $reservation->status_id = \App\Status::where('name', 'Cancel')->first()->id;
-        $reservation->save();
+        $reservation->save();        
+        
+        $cancellation = new \App\Mail\ReservationCancelled($reservation);
 
+        Mail::to($request->user())->send($cancellation);
         broadcast(new \App\Events\Reservation());
 
         if($request->ajax()){

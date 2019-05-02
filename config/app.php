@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => 'http://206.189.231.250/scit-reservation/public/index.php',
+    'url' => 'https://scitreserve.com',
 
     'asset_url' => env('ASSET_URL', null),
 
