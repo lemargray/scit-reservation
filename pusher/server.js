@@ -1,5 +1,13 @@
 #!/usr/bin/env node
-var server = require('http').Server();
+https = require('https');
+
+var options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/fullchain.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/privkey.pem')
+};
+
+https.createServer(options);
+var server = https.Server();
 
 var io = require('socket.io')(server);
 
