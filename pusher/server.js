@@ -2,8 +2,8 @@
 https = require('https');
 
 var options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/fullchain.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/privkey.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/cert.pem')
 };
 
 https.createServer(options);
