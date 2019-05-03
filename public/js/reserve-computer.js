@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // }
     });
     calendar.render();
-    url = window.location.protocol + "//" + window.location.hostname;
+    url = "http:" + "//" + window.location.hostname;
     var socket = io(url +':3000');
 
     socket.on('tester', function(data) {
