@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 https = require('https');
+var fs = require('fs');
 
 var options = {
     key: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/privkey.pem'),
