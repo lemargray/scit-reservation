@@ -6,8 +6,7 @@ var options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/scitreserve.com/cert.pem')
 };
 
-https.createServer(options);
-var server = https.Server();
+var server = https.createServer(options);
 
 var io = require('socket.io')(server);
 
