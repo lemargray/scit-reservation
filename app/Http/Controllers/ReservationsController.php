@@ -27,8 +27,11 @@ class ReservationsController extends Controller
      */
     public function create()
     {
-        $labs = \App\Lab::all();
-        return view('reservations.create')->with('labs', $labs)->with("is_search", true);
+        $active_status_id = \App\Status::where('name', 'Active')->first()->id;
+        $labs = \App\Lab::where('status_id', $active_status_id)->get();
+        $lab_list = $labs;
+        return view('reservations.create')
+            ->with('labs', $labs)->with("is_search", true)->with('lab_list', $lab_list);
     }
 
     /**

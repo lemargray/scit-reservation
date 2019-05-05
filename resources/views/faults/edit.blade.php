@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Create New Fault</div>
+        <div class="card-header">Edit Fault #{{ $fault->id }}</div>
         <div class="card-body">
             <a href="{{ url('/faults') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
             <br />
@@ -16,10 +16,11 @@
                 </ul>
             @endif
 
-            <form method="POST" action="{{ url('/faults') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+            <form method="POST" action="{{ url('/faults/' . $fault->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                {{ method_field('PATCH') }}
                 {{ csrf_field() }}
 
-                @include ('faults.form', ['formMode' => 'create'])
+                @include ('faults.form', ['formMode' => 'edit'])
 
             </form>
 

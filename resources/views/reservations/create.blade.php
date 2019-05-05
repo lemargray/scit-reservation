@@ -42,7 +42,16 @@
                     <label for="date">Date</label>
                     <input type="text" readonly="readonly" autocomplete="off" required class="form-control datetimepicker-input" name="date" id="date"  data-toggle="datetimepicker" data-target="#date">
                 </div>
-                <button class="btn btn-info">Search</button>
+                <div class="form-group">
+                    <label for="lab_id">Lab</label>
+                    <select name="lab_id" id="lab_id" class="form-control">
+                            <option value="">ALL</option>
+                        @foreach($lab_list as $l)
+                            <option value="{{$l->id}}">{{$l->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button class="btn btn-info">Search</button><button class="btn btn-default" type="reset">Reset</button>
             </form>
         </div>
     </div>
@@ -58,7 +67,7 @@
                 </h2>
             </div>
 
-            <div id="lab-{{$lab->id}}" class="collapse" aria-labelledby="lab-heading-{{$lab->id}}" data-parent="#accordionExample">
+            <div id="lab-{{$lab->id}}" class="collapse{{$labs[0]->id == $lab->id?' show':''}}" aria-labelledby="lab-heading-{{$lab->id}}" data-parent="#accordionExample">
                 <div class="card-body">
                     <h5>Computers</h5>
                     <div class="table-responsive">

@@ -284,9 +284,11 @@ class ComputerReservationsController extends Controller
     public function search(Request $request)
     {
         $date = date("Y-m-d", strtotime($request->date));
-
+        $lab_id = $request->lab_id;
         $start_time = $date.' '.date("H:i:s", strtotime($request->start_time));
         $end_time = $date.' '.date("H:i:s", strtotime($request->end_time));
+        $active_status_id = \App\Status::where('name', 'Active')->first()->id;
+
         $computers = \App\Computer::whereHas("lab.labReservations", function($q) use($start_time, $end_time){
                 $q->where('start_date', '>=', $start_time)
                 ->where([
@@ -324,14 +326,24 @@ class ComputerReservationsController extends Controller
         $labs = [];
         
         
-        $labs = \App\Lab::with(['computers' => function($q) use($computers){
-            $q->whereNotIn('computers.id', $computers);
-        }])->get();
+        $lab_query = \App\Lab::with(['computers' => function($q) use($computers, $active_status_id){
+            $q->whereNotIn('computers.id', $computers)
+                ->where('status_id', $active_status_id);
+        }])
+        ->where('status_id', $active_status_id);
+
+        if($lab_id != ''){
+            $lab_query->where('id', $lab_id);
+        }
         
+        $labs = $lab_query->get();
+        
+        $lab_list = \App\Lab::where('status_id', $active_status_id)->get();
 
         $request->flash();
         
-        return view("reservations.create")->with("labs", $labs)->with("is_search", true);
+        return view("reservations.create")
+            ->with("labs", $labs)->with("is_search", true)->with('lab_list', $lab_list);
     }
 
     public function maxTimeExceeded($start_date, $end_date)

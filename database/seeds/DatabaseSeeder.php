@@ -38,6 +38,9 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Active'],
             ['name' => 'Cancel'],
             ['name' => 'Disable'],
+            ['name' => 'Open'],
+            ['name' => 'Closed'],
+            ['name' => 'Resolved'],
         ]);
     }
 }

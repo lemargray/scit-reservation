@@ -19,7 +19,7 @@
         {
             "name": "description",
             "type": "text"
-        }
+        },
         {
             "name": "actioned_by",
             "type": "integer#unsigned"
@@ -27,7 +27,7 @@
         {
             "name": "actioned_at",
             "type": "datetime"
-        },
+        }
     ],
     "foreign_keys": [
         {
@@ -64,38 +64,23 @@
             "class": "App\\Status"
         },
         {
-            "name": "reserved_by",
+            "name": "loggedBy",
+            "type": "belongsTo",
+            "class": "App\\User"
+        },
+        {
+            "name": "actionedBy",
             "type": "belongsTo",
             "class": "App\\User"
         }
     ],
     "validations": [
         {
-            "field": "start_date",
-            "rules": "required"
-        },
-        {
-            "field": "end_date",
-            "rules": "required"
-        },
-        {
-            "field": "description",
-            "rules": "required"
-        },
-        {
             "field": "computer_id",
             "rules": "required|exists:computers,id"
         },
         {
-            "field": "status_id",
-            "rules": "required|exists:status,id"
-        },
-        {
-            "field": "reserved_by",
-            "rules": "required|exists:users,id"
-        },
-        {
-            "field": "reserved_at",
+            "field": "description",
             "rules": "required"
         }
     ]

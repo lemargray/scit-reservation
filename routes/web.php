@@ -63,3 +63,7 @@ Route::get('user/{username}', function($username){
 
 Route::middleware('auth')->name('computers-available')->get('/available/computers', 'ComputerReservationsController@search');
 
+
+Route::resource('faults', 'FaultsController');
+Route::resource('faults', 'FaultsController');
+Route::resource('faults', 'FaultsController');
