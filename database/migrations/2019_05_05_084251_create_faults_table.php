@@ -20,12 +20,14 @@ class CreateFaultsTable extends Migration
             $table->bigInteger('logged_by')->unsigned();
             $table->dateTime('logged_at')->nullable();
             $table->text('description')->nullable();
-            $table->bigInteger('actioned_by')->unsigned();
+            $table->bigInteger('actioned_by')->unsigned()->nullable();
             $table->dateTime('actioned_at')->nullable();
+            $table->integer('parent_id')->unsigned()->nullable();            
             $table->foreign('computer_id')->references('id')->on('computers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('status_id')->references('id')->on('status');
             $table->foreign('logged_by')->references('id')->on('users');
             $table->foreign('actioned_by')->references('id')->on('users');
+            $table->foreign('parent_id')->references('id')->on('faults');
             });
     }
 

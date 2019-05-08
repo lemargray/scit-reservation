@@ -41,13 +41,15 @@ class FaultsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         $active_status_id = \App\Status::where('name', 'Active')->first()->id;
 
         $computers = \App\Computer::where('status_id', $active_status_id)->get();
 
-        return view('faults.create')->with('computers', $computers);
+        $parent_id = $request->parent_id;
+
+        return view('faults.create')->with('computers', $computers)->with('parent_id', $parent_id);
     }
 
     /**
@@ -64,8 +66,30 @@ class FaultsController extends Controller
 			'description' => 'required'
 		]);
         $requestData = $request->all();
+        $requestData['status_id'] = \App\Status::where('name', 'Open')->first()->id;
+        $requestData['logged_by'] = auth()->user()->id;
+        $requestData['logged_at'] = date('Y-m-d H:s:i');
+        $fault = Fault::create($requestData);
+
+        if($requestData['parent_id'] != ''){
+            $parent = \App\Fault::find($requestData['parent_id']);
+            $parent->status_id = $requestData['status_id'];
+            $parent->save();
+        }
+
+        if($request->hasfile('upload'))
+         {
+            foreach($request->file('upload') as $file)
+            {
+                $name=$file->getClientOriginalName();
+                $file->move(public_path().'/files/', $name); 
+                $faultImage = new \App\FaultImage(); 
+                $faultImage->path = '/files/' . $name;  
+                $faultImage->fault_id = $fault->id;             
+                $faultImage->save();
+            }
+         }
         
-        Fault::create($requestData);
 
         return redirect('faults')->with('flash_message', 'Fault added!');
     }
@@ -129,8 +153,14 @@ class FaultsController extends Controller
      */
     public function destroy($id)
     {
-        Fault::destroy($id);
+        $status_closed_id = \App\Status::where('name', 'Closed')->first()->id;
 
-        return redirect('faults')->with('flash_message', 'Fault deleted!');
+        $fault = Fault::find($id);
+        $fault->status_id = $status_closed_id;
+        $fault->actioned_by = auth()->user()->id;
+        $fault->actioned_at = date('Y-m-d H:s:i');
+        $fault->save();
+
+        return redirect('faults')->with('flash_message', 'Fault Closed!');
     }
 }

@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has('computer_id') ? 'has-error' : ''}}">
     <label for="computer_id" class="control-label">{{ 'Computer' }}</label>
-    
+    <input type="hidden" name="parent_id" value="{{$parent_id}}">
     <select name="computer_id" id="computer_id" class="form-control" required>
     @foreach($computers as $computer)
         <option value="{{$computer->id}}">{{$computer->name}}</option>    
@@ -15,6 +15,10 @@
     {!! $errors->first('description', '<p class="help-block">:message</p>') !!}
 </div>
 
+<div class="form-group">
+    <label for="file">Upload images of the issue</label>
+    <input class="form-control" name="upload[]" id="file" type="file" multiple="multiple" />
+</div>
 
 <div class="form-group">
     <input class="btn btn-primary" type="submit" value="{{ $formMode === 'edit' ? 'Update' : 'Report Fault' }}">

@@ -25,25 +25,28 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th><th>Computer Id</th><th>Status Id</th><th>Logged By</th><th>Actions</th>
+                            <th>#</th><th>Computer</th><th>Issue</th><th>Status</th><th>Logged By</th><th>Logged At</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($faults as $item)
+                        @if($item->parent == null)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->computer_id }}</td><td>{{ $item->status_id }}</td><td>{{ $item->logged_by }}</td>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->computer->name }}</td><td>{{str_limit($item->description, 30,'...')}}</td><td>{{ $item->status->name }}</td><td>{{ $item->loggedBy->name }}</td><td>{{date("d/m/Y h:s a", strtotime($item->logged_at))}}</td>
                             <td>
                                 <a href="{{ url('/faults/' . $item->id) }}" title="View Fault"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                <a href="{{ url('/faults/' . $item->id . '/edit') }}" title="Edit Fault"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</button></a>
-
+                                <!-- <a href="{{ url('/faults/' . $item->id . '/edit') }}" title="Edit Fault"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</button></a> -->
+                                @if($item->status->name == 'Open')
                                 <form method="POST" action="{{ url('/faults' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Fault" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Fault" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-alt" aria-hidden="true"></i> Close Report</button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showCancelButton: true,
                 html: "Reservation for: " + info.event.title + 
                     "<br>From: " + moment(info.event.start).format('YYYY-MM-DD HH:mm a')+ 
-                    "<br>To: "+ moment(info.event.start).format('YYYY-MM-DD HH:mm a') + "<br>will be cancelled.",
+                    "<br>To: "+ moment(info.event.end).format('YYYY-MM-DD HH:mm a') + "<br>will be cancelled.",
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, Cancel!',
@@ -177,14 +177,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             iziToast.success({
                                 title: 'OK',
                                 position: 'topCenter',
-                                message: 'Reservation ' + info.event.title + " successfully cancelled",
+                                message: 'Reservation ' + info.event.title + " successfully cancelled"
                             });
                         })
                         .fail(function(xhr, status, error) {        
                             iziToast.error({
                                 title: 'FAILED!',
                                 position: 'topCenter',
-                                message: 'Unable to cancel reservation for: ' + info.event.title,
+                                message: 'Unable to cancel reservation for: ' + info.event.title
                             });
                         });
                         

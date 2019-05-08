@@ -17,7 +17,17 @@ class ReservationsController extends Controller
      */
     public function index()
     {
-        return view('reservations.index');        
+        if(auth()->user()->role->name == 'admin'){ 
+            $query = new \App\ComputerReservation;
+        }else{                       
+            $query = \App\ComputerReservation::where(
+                'reserved_by', auth()->user()->id
+            );
+        }
+
+        $reservations = $query->orderBy('start_date', 'DESC')->paginate('10');
+
+        return view('reservations.index')->with('reservations', $reservations);        
     }
 
     /**

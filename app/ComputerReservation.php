@@ -27,6 +27,10 @@ class ComputerReservation extends Model
      */
     protected $fillable = ['start_date', 'end_date', 'computer_id', 'status_id', 'reserved_by', 'reserved_at', 'description'];
 
+    // public function lab()
+    // {
+    //     return $this->belongsTo('App\Lab');
+    // }
     public function computer()
     {
         return $this->belongsTo('App\Computer');
