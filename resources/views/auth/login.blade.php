@@ -108,12 +108,13 @@
 												<i class="fa fa-apple" aria-hidden="true"></i>
 											</div>
 											<div class="media-body">
-												<a href="#"><h4>Available</h4></a>
-												<p>on App Store</p>
+												<a href="{{asset('downloads/_SCIT_Lab_Reservation_V1.apk')}}"><h4>Available</h4>
+												<p>Download Now</p>
+												</a>
 											</div>
 										</div>
 									</div>
-									<div class="app_btn">
+									<!-- <div class="app_btn">
 										<div class="media">
 											<div class="d-flex">
 												<i class="fa fa-android" aria-hidden="true"></i>
@@ -123,7 +124,7 @@
 												<p>on App Store</p>
 											</div>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
