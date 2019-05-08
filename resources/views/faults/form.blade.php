@@ -3,7 +3,7 @@
     <input type="hidden" name="parent_id" value="{{$parent_id}}">
     <select name="computer_id" id="computer_id" class="form-control" required>
     @foreach($computers as $computer)
-        <option value="{{$computer->id}}">{{$computer->name}}</option>    
+        <option value="{{$computer->id}}">Lab: &nbsp;&nbsp;{{$computer->lab->name}} &nbsp;&nbsp;&nbsp;&nbsp;--> &nbsp;&nbsp;&nbsp;&nbsp;Computer: &nbsp;&nbsp;{{$computer->name}}</option>    
     @endforeach
     </select>
     <!-- <input class="form-control" name="computer_id" type="number" id="computer_id" value="{{ isset($fault->computer_id) ? $fault->computer_id : ''}}" required> -->
@@ -17,7 +17,7 @@
 
 <div class="form-group">
     <label for="file">Upload images of the issue</label>
-    <input class="form-control" name="upload[]" id="file" type="file" multiple="multiple" />
+    <input class="form-control" name="upload[]" id="file" type="file" multiple="multiple" accept="image/*" />
 </div>
 
 <div class="form-group">

@@ -33,7 +33,19 @@
                         @if($item->parent == null)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td>{{ $item->computer->name }}</td><td>{{str_limit($item->description, 30,'...')}}</td><td>{{ $item->status->name }}</td><td>{{ $item->loggedBy->name }}</td><td>{{date("d/m/Y h:s a", strtotime($item->logged_at))}}</td>
+                            <td>{{ $item->computer->name }}</td><td>{{str_limit($item->description, 30,'...')}}</td>
+                            <td>
+                                @if($item->status->name == 'Open')
+                                <span class="badge badge-primary">{{ $item->status->name }}</span>
+                                @endif
+                                @if($item->status->name == 'Resolved')
+                                <span class="badge badge-success">{{ $item->status->name }}</span>
+                                @endif
+                                @if($item->status->name == 'Closed')
+                                <span class="badge badge-Warning">{{ $item->status->name }}</span>
+                                @endif
+                            </td>
+                            <td>{{ $item->loggedBy->name }}</td><td>{{date("d/m/Y h:s a", strtotime($item->logged_at))}}</td>
                             <td>
                                 <a href="{{ url('/faults/' . $item->id) }}" title="View Fault"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                 <!-- <a href="{{ url('/faults/' . $item->id . '/edit') }}" title="Edit Fault"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</button></a> -->
