@@ -55,10 +55,18 @@ Route::middleware('auth')->name('computer-reservation')->get('/api/computer-rese
 Route::get('user/{username}', function($username){
     $user = \App\User::where('username', $username)->first();
     $start_date = date("Y-m-d H:m");
-    return \App\ComputerReservation::where('reserved_by', $user->id)
+    $active_status_id = \App\Status::where('name', 'Active')->first()->id;
+    $reservation =  \App\ComputerReservation::where('reserved_by', $user->id)
         ->where('start_date', '<=', $start_date)
-        ->where('end_date', '>=', $start_date)->first();
-    return [0=>["username" => $username]];
+        ->where('end_date', '>=', $start_date)
+        ->where('status_id', $active_status_id)->first();
+
+    if($reservation){
+        $reservation->status_id = \App\Status::where('name', 'Used')->first()->id;
+        $reservation->save();
+    }
+    return $reservation;
+    // return [0=>["username" => $username]];
 });
 
 Route::middleware('auth')->name('computers-available')->get('/available/computers', 'ComputerReservationsController@search');

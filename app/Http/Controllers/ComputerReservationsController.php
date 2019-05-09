@@ -316,35 +316,42 @@ class ComputerReservationsController extends Controller
         $start_time = $date.' '.date("H:i:s", strtotime($request->start_time));
         $end_time = $date.' '.date("H:i:s", strtotime($request->end_time));
         $active_status_id = \App\Status::where('name', 'Active')->first()->id;
+        $cancel_status_id = \App\Status::where('name', 'Cancel')->first()->id;
 
-        $computers = \App\Computer::whereHas("lab.labReservations", function($q) use($start_time, $end_time){
-                $q->where('start_date', '>=', $start_time)
-                ->where([
-                    ['end_date', '<=', $end_time]
+        $computers = \App\Computer::whereHas("lab.labReservations", function($q) use($start_time, $end_time, $cancel_status_id){
+                $q->where([
+                    ['start_date', '>=', $start_time],
+                    ['end_date', '<=', $end_time],
+                    ['status_id', '!=', $cancel_status_id]
                 ])
-                ->orWhere(function($q) use($start_time, $end_time){
+                ->orWhere(function($q) use($start_time, $end_time, $cancel_status_id){
                     $q->where('start_date', '<=', $start_time)
-                    ->where(function($q) use($start_time, $end_time){
-                        $q->where('end_date', '>', $start_time)
-                        ->orWhere([
-                            ['start_date', '<', $end_time],
-                            ['end_date', '>=', $end_time]
-                        ]);
+                    ->where(function($q) use($start_time, $end_time, $cancel_status_id){
+                        $q->where(function($q) use($start_time, $end_time, $cancel_status_id){
+                            $q->where('end_date', '>', $start_time)
+                                ->orWhere([
+                                    ['start_date', '<', $end_time],
+                                    ['end_date', '>=', $end_time]
+                                ]);
+                        })->where('status_id', '!=', $cancel_status_id);
                     });
                 });
-            })->orWhereHas("computerReservations", function($q) use($start_time, $end_time){
-                $q->where('start_date', '>=', $start_time)
-                ->where([
-                    ['end_date', '<=', $end_time]
+            })->orWhereHas("computerReservations", function($q) use($start_time, $end_time, $cancel_status_id){
+                $q->where([
+                    ['start_date', '>=', $start_time],
+                    ['end_date', '<=', $end_time],
+                    ['status_id', '!=', $cancel_status_id]
                 ])
-                ->orWhere(function($q) use($start_time, $end_time){
+                ->orWhere(function($q) use($start_time, $end_time, $cancel_status_id){
                     $q->where('start_date', '<=', $start_time)
-                    ->where(function($q) use($start_time, $end_time){
-                        $q->where('end_date', '>', $start_time)
-                        ->orWhere([
-                            ['start_date', '<', $end_time],
-                            ['end_date', '>=', $end_time]
-                        ]);
+                    ->where(function($q) use($start_time, $end_time, $cancel_status_id){
+                        $q->where(function($q) use($start_time, $end_time, $cancel_status_id){
+                            $q->where('end_date', '>', $start_time)
+                                ->orWhere([
+                                    ['start_date', '<', $end_time],
+                                    ['end_date', '>=', $end_time]
+                                ]);
+                        })->where('status_id', '!=', $cancel_status_id);
                     });
                 });                
             })->get()->map(function($item){

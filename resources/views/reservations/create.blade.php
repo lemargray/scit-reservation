@@ -63,6 +63,9 @@
                 <h2 class="mb-0">
                     <button class="btn collapse-button" type="button" data-toggle="collapse" data-target="#lab-{{$lab->id}}" aria-expanded="true" aria-controls="lab-{{$lab->id}}">
                    <span style="font-size:16px;font-weight:bold; text-transform:uppercase">{{$lab->name}}</span> <span style="padding:10px; margin-left:20px; text-transform:uppercase" class="badge badge-pill badge-primary"><i class="fas fa-desktop" style="margin-right:10px"></i>  <span style="margin-right:5px">Computers</span> [ {{count($lab->computers)}} ]</span>
+                    @if(old('start_time') != '')
+                    <span style="margin-left:30px;text-transform:uppercase;"> Computers available on: {{old('date')}}</span> <span style="margin-left:15px;text-transform:uppercase;">from: {{old('start_time')}} - {{old('end_time')}}</span>
+                    @endif
                     </button>
                 </h2>
             </div>
