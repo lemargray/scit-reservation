@@ -12,45 +12,47 @@
             All Reservations
         </div>
         <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Lab</th>
-                        <th>Computer</th>
-                        <th>Date</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Status</th>
-                        <th>Reserved By</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @php $current = time() - strtotime(date('Y-m-d H:s')) @endphp
-                @foreach($reservations as $reservation)
-                    @php $end_time = time() - strtotime($reservation->end_date) @endphp
-                    <tr>
-                        <td>{{$reservation->computer->lab->name}}</td>
-                        <td>{{$reservation->computer->name}}</td>
-                        <td>{{date("d/m/Y", strtotime($reservation->start_date))}}</td>
-                        <td>{{date("h:s a", strtotime($reservation->start_date))}}</td>
-                        <td>{{date("h:s a", strtotime($reservation->end_date))}}</td>
-                        <td>{{$reservation->status->name}}</td>
-                        <td>{{$reservation->reservedBy->name}}</td>
-                        <td>
-                            @if($reservation->status->name == "Active" && $current >= $end_time)
-                                <button onclick="cancel_reservation({{$reservation->id}})" class="btn btn-warning">Cancel Reservation</button>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                @if(count($reservations) == 0)
-                    <tr>
-                        <td colspan="100%">You haven't made any reservations as yet.</td>
-                    </tr>
-                @endif
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Lab</th>
+                            <th>Computer</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                            <th>Reserved By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @php $current = time() - strtotime(date('Y-m-d H:s')) @endphp
+                    @foreach($reservations as $reservation)
+                        @php $end_time = time() - strtotime($reservation->end_date) @endphp
+                        <tr>
+                            <td>{{$reservation->computer->lab->name}}</td>
+                            <td>{{$reservation->computer->name}}</td>
+                            <td>{{date("d/m/Y", strtotime($reservation->start_date))}}</td>
+                            <td>{{date("h:s a", strtotime($reservation->start_date))}}</td>
+                            <td>{{date("h:s a", strtotime($reservation->end_date))}}</td>
+                            <td>{{$reservation->status->name}}</td>
+                            <td>{{$reservation->reservedBy->name}}</td>
+                            <td>
+                                @if($reservation->status->name == "Active" && $current >= $end_time)
+                                    <button onclick="cancel_reservation({{$reservation->id}})" class="btn btn-warning">Cancel Reservation</button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    @if(count($reservations) == 0)
+                        <tr>
+                            <td colspan="100%">You haven't made any reservations as yet.</td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     {{$reservations->links()}}
