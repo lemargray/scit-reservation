@@ -69,7 +69,9 @@ class ComputerReservationsController extends Controller
         $requestData['reserved_at'] = date('Y-m-d');
         $requestData['status_id'] = 1;
 
-        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date']) ){
+        // return $request->all();
+
+        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $requestData['computer_id']) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
         }
 
@@ -236,45 +238,42 @@ class ComputerReservationsController extends Controller
         return array_merge($keyed->all(), $keyed_2->all());
     }
 
-    public function alreadyExist($start_time, $end_time, $id = null)
+    public function alreadyExist($start_time, $end_time, $computer_id = null)
     {
-        $query = ComputerReservation::where('start_date', '>=', $start_time)
-            ->where([
-                ['end_date', '<=', $end_time]
-            ])
-            ->orWhere(function($q) use($start_time, $end_time){
-                $q->where('start_date', '<=', $start_time)
-                ->where(function($q) use($start_time, $end_time){
-                    $q->where('end_date', '>', $start_time)
-                    ->orWhere([
-                        ['start_date', '<', $end_time],
-                        ['end_date', '>=', $end_time]
-                    ]);
-            });
-        });
-
-        if($id !== null){
-            $query->where('id', '!=', $id);
-        }
-
-        $computerAlreadyExist = $query->get();
-
-        $labAlreadyExist = \App\LabReservation::where('start_date', '>=', $start_time)
-            ->where([
-                ['end_date', '<=', $end_time]
-            ])
-            ->orWhere(function($q) use($start_time, $end_time){
-                $q->where('start_date', '<=', $start_time)
-                ->where(function($q) use($start_time, $end_time){
-                    $q->where('end_date', '>', $start_time)
-                    ->orWhere([
-                        ['start_date', '<', $end_time],
-                        ['end_date', '>=', $end_time]
-                    ]);
-            });
+        $cancel_status_id = \App\Status::where('name', 'Cancel')->first()->id;
+        $computerAlreadyExist = ComputerReservation::where(function($q) use($start_time, $end_time, $cancel_status_id, $computer_id){
+            $q->where('start_date', '<=', $start_time)->where('end_date', '>=', $end_time)
+                ->where('computer_id', $computer_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $computer_id){
+            $q->where('start_date', '>=', $start_time)->where('end_date', '<=', $end_time)
+                ->where('computer_id', $computer_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $computer_id){
+            $q->where('start_date', '<', $end_time)->where('end_date', '>', $end_time)
+                ->where('computer_id', $computer_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $computer_id){
+            $q->where('start_date', '<', $start_time)->where('end_date', '>', $start_time)
+                ->where('computer_id', $computer_id)->where('status_id', '!=', $cancel_status_id);
         })->get();
 
-        if($computerAlreadyExist->isNotEmpty() && $labAlreadyExist->isNotEmpty()){
+        $lab_id = \App\Computer::find($computer_id)->lab_id;
+
+        $labAlreadyExist = \App\LabReservation::where(function($q) use($start_time, $end_time, $cancel_status_id, $lab_id){
+            $q->where('start_date', '<=', $start_time)->where('end_date', '>=', $end_time)
+                ->where('lab_id', $lab_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $lab_id){
+            $q->where('start_date', '>=', $start_time)->where('end_date', '<=', $end_time)
+                ->where('lab_id', $lab_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $lab_id){
+            $q->where('start_date', '<', $end_time)->where('end_date', '>', $end_time)
+                ->where('lab_id', $lab_id)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $lab_id){
+            $q->where('start_date', '<', $start_time)->where('end_date', '>', $start_time)
+                ->where('lab_id', $lab_id)->where('status_id', '!=', $cancel_status_id);
+        })->get();
+        // var_dump($computerAlreadyExist);
+        // var_dump($labAlreadyExist);exit;
+
+        if($computerAlreadyExist->isNotEmpty() || $labAlreadyExist->isNotEmpty()){
             return true;
         }
 

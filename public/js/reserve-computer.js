@@ -59,6 +59,8 @@ var addReservation = function (info) {
 
     $.post('/computer-reservations', addData)
     .done(function( data ) {
+        console.log(data);
+        console.log(data);
         info.event.remove();
         iziToast.success({
             title: 'OK',
@@ -227,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
            addReservation(info); 
-           console.log(calendar);
         //    console.log(calendar.getEventById('new').id);
         },
         // loading: function(bool) {
