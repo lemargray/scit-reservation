@@ -77,6 +77,27 @@ class LabReservationsController extends Controller
 
         $id = LabReservation::create($requestData)->id;
 
+        if($requestData['reservable_type'] == 'App\Course'){
+            $course = \App\Course::find($requestData['reservable_id']);
+
+            $weeks = $course->weeks;
+
+            if($weeks > 1){
+                for($i = 2; $i <= $weeks; $i++){
+                    $start_date = new \Carbon\Carbon($requestData['start_date']);
+                    $end_date = new \Carbon\Carbon($requestData['end_date']);
+
+                    $start_date->addWeek();
+                    $end_date->addWeek();
+
+                    $requestData['start_date'] = $start_date->toDateTimeString();
+                    $requestData['end_date'] = $end_date->toDateTimeString();
+
+                    LabReservation::create($requestData);
+                }
+            }            
+        }
+
         if($request->ajax()){
             return $id;
         }

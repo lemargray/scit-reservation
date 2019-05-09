@@ -76,7 +76,7 @@ var addReservation = function (info) {
         
     })
     .fail(function(xhr, status, error) {
-        console.log(xhr);
+        var error_message = (JSON.parse(xhr.responseText).message);
         info.event.remove();
 
         console.log(calendar);
@@ -86,7 +86,7 @@ var addReservation = function (info) {
         iziToast.error({
             title: 'FAILED!',
             position: 'topCenter',
-            message: 'Unable to reserve computer for ' + info.event.title,
+            message: error_message,
         });
 
         

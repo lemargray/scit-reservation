@@ -74,7 +74,11 @@ class ComputerReservationsController extends Controller
         if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $requestData['computer_id']) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
         }
-
+        
+        if( $this->multipleReservations($requestData['start_date'], $requestData['end_date'], auth()->user()->id) ){
+            return abort(403, "Sorry, you cannot reserve multiple computers for the same time. Check your reservations.");
+        }
+        
         if($this->maxTimeExceeded($requestData['start_date'], $requestData['end_date'])){
             return abort(403, "Exceeding limit.");
         }
@@ -196,7 +200,8 @@ class ComputerReservationsController extends Controller
         $start_date = date('Y-m-d H:i:s', strtotime(request()->query('start')));
         $end_date = date('Y-m-d H:i:s', strtotime(request()->query('end')));
         $active_status_id = \App\Status::where('name', 'Active')->first()->id;
-        $reservations = \App\LabReservation::where('lab_id', $id)
+        $lab_id = \App\Computer::find($id)->lab_id;
+        $reservations = \App\LabReservation::where('lab_id', $lab_id)
             ->where('start_date', '>=', $start_date)
             ->where('start_date', '<', $end_date)
             ->where('end_date', '<=', $end_date)
@@ -236,6 +241,30 @@ class ComputerReservationsController extends Controller
         });
         
         return array_merge($keyed->all(), $keyed_2->all());
+    }
+
+    public function multipleReservations($start_time, $end_time, $reserved_by)
+    {
+        $cancel_status_id = \App\Status::where('name', 'Cancel')->first()->id;
+        $computerAlreadyExist = ComputerReservation::where(function($q) use($start_time, $end_time, $cancel_status_id, $reserved_by){
+            $q->where('start_date', '<=', $start_time)->where('end_date', '>=', $end_time)
+                ->where('reserved_by', $reserved_by)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $reserved_by){
+            $q->where('start_date', '>=', $start_time)->where('end_date', '<=', $end_time)
+                ->where('reserved_by', $reserved_by)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $reserved_by){
+            $q->where('start_date', '<', $end_time)->where('end_date', '>', $end_time)
+                ->where('reserved_by', $reserved_by)->where('status_id', '!=', $cancel_status_id);
+        })->orWhere(function($q) use($start_time, $end_time, $cancel_status_id, $reserved_by){
+            $q->where('start_date', '<', $start_time)->where('end_date', '>', $start_time)
+                ->where('reserved_by', $reserved_by)->where('status_id', '!=', $cancel_status_id);
+        })->get();
+
+        if($computerAlreadyExist->isNotEmpty()){
+            return true;
+        }
+
+        return false;
     }
 
     public function alreadyExist($start_time, $end_time, $computer_id = null)

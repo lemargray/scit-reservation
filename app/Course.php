@@ -25,7 +25,7 @@ class Course extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'duration'];
+    protected $fillable = ['name', 'description', 'duration', 'weeks'];
 
     public function labReservations()
     {
