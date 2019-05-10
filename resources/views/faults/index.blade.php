@@ -42,7 +42,7 @@
                                 <span class="badge badge-success">{{ $item->status->name }}</span>
                                 @endif
                                 @if($item->status->name == 'Closed')
-                                <span class="badge badge-Warning">{{ $item->status->name }}</span>
+                                <span class="badge badge-warning">{{ $item->status->name }}</span>
                                 @endif
                             </td>
                             <td class="hide-mobile">{{ $item->loggedBy->name }}</td><td>{{date("d/m/Y h:s a", strtotime($item->logged_at))}}</td>

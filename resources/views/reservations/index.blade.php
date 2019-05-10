@@ -36,11 +36,21 @@
                             <td>{{date("d/m/Y", strtotime($reservation->start_date))}}</td>
                             <td>{{date("h:s a", strtotime($reservation->start_date))}}</td>
                             <td>{{date("h:s a", strtotime($reservation->end_date))}}</td>
-                            <td>{{$reservation->status->name}}</td>
+                            <td>
+                                @if($reservation->status->name == 'Used')
+                                <span class="badge badge-primary">{{ $reservation->status->name }}</span>
+                                @endif
+                                @if($reservation->status->name == 'Active')
+                                <span class="badge badge-success">{{ $reservation->status->name }}</span>
+                                @endif
+                                @if($reservation->status->name == 'Cancel')
+                                <span class="badge badge-warning">{{ $reservation->status->name }}</span>
+                                @endif
+                            </td>
                             <td>{{$reservation->reservedBy->name}}</td>
                             <td>
                                 @if($reservation->status->name == "Active" && $current >= $end_time)
-                                    <button onclick="cancel_reservation({{$reservation->id}})" class="btn btn-warning">Cancel Reservation</button>
+                                    <button onclick="cancel_reservation({{$reservation->id}})" class="btn btn-warning"><i class="fas fa-ban"></i> Cancel Reservation</button>
                                 @endif
                             </td>
                         </tr>
