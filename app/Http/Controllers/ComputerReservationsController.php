@@ -145,8 +145,10 @@ class ComputerReservationsController extends Controller
         if($this->maxTimeExceeded($requestData['start_date'], $requestData['end_date'])){
             return abort(403, "Exceeding limit.");
         }
+
+        $computer_id = \App\ComputerReservation::find($id)->computer->id;
         
-        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $id) ){
+        if( $this->alreadyExist($requestData['start_date'], $requestData['end_date'], $computer_id) ){
             return abort(403, "A Reservation already exist for that time slot. Please refresh to see changes.");
         }
         
