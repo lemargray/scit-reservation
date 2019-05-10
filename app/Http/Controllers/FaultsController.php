@@ -167,4 +167,17 @@ class FaultsController extends Controller
 
         return redirect('faults')->with('flash_message', 'Fault Closed!');
     }
+
+    public function resolve($id)
+    {
+        $status_resolved_id = \App\Status::where('name', 'Resolved')->first()->id;
+
+        $fault = Fault::find($id);
+        $fault->status_id = $status_resolved_id;
+        $fault->actioned_by = auth()->user()->id;
+        $fault->actioned_at = date('Y-m-d H:s:i');
+        $fault->save();
+
+        return redirect('faults')->with('flash_message', 'Fault Resolved!');
+    }
 }

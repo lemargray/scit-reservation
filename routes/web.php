@@ -73,5 +73,5 @@ Route::middleware('auth')->name('computers-available')->get('/available/computer
 
 
 Route::resource('faults', 'FaultsController');
-Route::resource('faults', 'FaultsController');
-Route::resource('faults', 'FaultsController');
+
+Route::post('/fault/{id}/resolve', 'FaultsController@resolve')->name('faults.resolve');

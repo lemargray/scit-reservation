@@ -5,6 +5,12 @@
     <div class="card">
         <div class="card-header">
             Fault #: {{$fault->id}} <a style="margin-left:30px" class="btn btn-info" href="{{route('faults.create', ['parent_id' => $fault->id])}}"><i class="fas fa-plus"></i> Log Followup</a>
+            @if(auth()->user()->role->name == 'admin' && $fault->status->name == 'Open')
+            <form style="display:inline;margin-left:20px" class="form-inline" action="{{route('faults.resolve', ['id' => $fault->id])}}" method="post">
+            @csrf
+            <button style="height:34.88px" class="btn btn-success" type="sumbit"><i class="fas fa-toolbox"></i> Mark Resolved</button>
+            </form>
+            @endif
         </div>
         <div class="card-body">
             <div class="table-responsive">
