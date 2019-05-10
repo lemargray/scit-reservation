@@ -55,6 +55,9 @@ Route::middleware('auth')->name('computer-reservation')->get('/api/computer-rese
 Route::get('user/{username}', function($username){
     $user = \App\User::where('username', $username)->first();
     if($user){
+        if($user->role->name == 'admin'){
+            return $user;
+        }
         $start_date = date("Y-m-d H:m");
         $active_status_id = \App\Status::where('name', 'Active')->first()->id;
         $reservation =  \App\ComputerReservation::where('reserved_by', $user->id)
