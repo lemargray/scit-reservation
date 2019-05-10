@@ -49,7 +49,7 @@
                             <td>
                                 <a href="{{ url('/faults/' . $item->id) }}" title="View Fault"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                 <!-- <a href="{{ url('/faults/' . $item->id . '/edit') }}" title="Edit Fault"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-alt" aria-hidden="true"></i> Edit</button></a> -->
-                                @if($item->status->name == 'Open')
+                                @if($item->status->name == 'Open' && auth()->user()->role->name == 'admin')
                                 <form method="POST" action="{{ url('/faults' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
