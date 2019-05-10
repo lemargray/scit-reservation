@@ -79,7 +79,7 @@
 
             <div id="note-{{$note->id}}" class="collapse" aria-labelledby="note-heading-{{$note->id}}" data-parent="#accordionExample">
                 <div class="card-body">
-                    <div class="docs-galley" style="padding:20px;border:1px solid #eee; margin-top:30px">{{$fault->description}}</div>
+                    <div class="docs-galley" style="padding:20px;border:1px solid #eee; margin-top:30px">{{$note->description}}</div>
                         <div class="docs-pictures clearfix" style="padding:20px">
                         <div style="margin-top:10px" class="row">
                         @foreach($note->faultImages as $noteImage)
